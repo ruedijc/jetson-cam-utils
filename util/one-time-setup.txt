@@ -1,0 +1,25 @@
+# setup instructions for jetson to ISS form
+
+# extending usbfs memory size for USB3 image transfer
+
+need to  add
+     usbcore.usbfs_memory_mb=1000
+ in the APPEND line on /boot/extlinux/extlinux.conf
+
+
+# allowing xAPI programs higher thread priority (not critical)
+
+for compiled applciations, ximea API apps will complain
+> xiAPI: Failed to change thread scheduler, check user limit for realtime priority.
+run this on the output executable to allow it higher thread priority
+$ sudo setcap cap_sys_nice+ep ./xiSample
+
+
+# installing pillow (PIL) and opencv - 
+python3 -m pip install --upgrade pip
+
+python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade Pillow
+
+# installing cv2 for python - (assuming not using jetpack version)
+sudo apt install python3-opencv
