@@ -1,0 +1,35 @@
+
+# Basic instructions for adding a new mSATA ssd to the CTI spacely carrier with tx2/tx2i on L4T -
+#
+# Attach the drive. reboot
+#
+# Show the disks on the system 
+
+fdisk -l
+
+# probably new disk will be something like /dev/sda
+
+#create a partition on the new disk
+
+fdisk /dev/sda
+
+# select "n - create a partition"
+# select primary partition, "p"
+# give partition number, default value 1
+# first sector, use default
+# last sector, use default
+# save changes and exit, w
+
+# Now format the disk with mkfs command. (/dev/sda plus a 1 for first partition)
+
+mkfs.ext4 /dev/sda1
+
+#Once formatting has been completed, now mount the partition to "/ssd" for example
+
+mount /dev/sda1 /ssd
+
+# to make it permanent, make an entry in /etc/fstab file:
+
+/dev/sda1	/ssd	ext4	defaults     0   0
+
+# the end
