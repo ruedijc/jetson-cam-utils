@@ -10,4 +10,8 @@
 #
 #    Press 'j' to Capture one image.
 #    Press 'q' to exit
-nvgstcapture-1.0
+
+#nvgstcapture-1.0
+
+# camsrc=1 is csi default
+nvgstcapture-1.0 --camsrc=1

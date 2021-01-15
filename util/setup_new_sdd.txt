@@ -24,12 +24,17 @@ fdisk /dev/sda
 
 mkfs.ext4 /dev/sda1
 
-#Once formatting has been completed, now mount the partition to "/ssd" for example
+# make a dir where you want the drive to be located
+mkdir /media/msata
 
-mount /dev/sda1 /ssd
+#Once formatting has been completed, now mount the partition to "/media/msata" for example
+
+mount /dev/sda1 /media/msata
 
 # to make it permanent, make an entry in /etc/fstab file:
-
-/dev/sda1	/ssd	ext4	defaults     0   0
+# the last two values are dump=0, pass=2 (for example)
+# the pass indicates the order of checking on boot. root fs should be 1
+# other disks, values  higher
+/dev/sda1	/media/msata	ext4	defaults     0   2
 
 # the end
