@@ -23,3 +23,10 @@ python3 -m pip install --upgrade Pillow
 
 # installing cv2 for python - (assuming not using jetpack version)
 sudo apt install python3-opencv
+
+# show what parts of jetpack are available - 
+sudo apt show nvidia-jetpack
+# install jetpack verison - 
+sudo apt install nvidia-opencv
+# install jetpack multimedia api
+sudo apt install nvidia-l4t-jetson-multimedia-api 

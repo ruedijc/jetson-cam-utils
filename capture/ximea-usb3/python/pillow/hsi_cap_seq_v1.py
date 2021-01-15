@@ -57,6 +57,7 @@ for exp in exposure_list:
     for j in range(num_captures):
         #stamp current time
         ts = datetime.now()
+        tempC = 4021
 
         #get data and pass them from camera to img
         cam.get_image(ximg)
@@ -88,14 +89,22 @@ for exp in exposure_list:
         print('Timestamp was : ',ts.isoformat())
         # tried saving to tmpfs (/dev/shm) but didn't save time.
         # probably just slow writing?
-
+        '''
         fname = 'hsi_'+ \
             str(ts.isoformat()) + '_' + \
             str(real_exp) + 'us_' + \
             str(j+1) + '-of-' + str(num_captures) + \
             '.tif'
+        '''
+
+        fname = 'hsi_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f")+'_' + \
+            str(real_exp) + 'us_' + \
+            str(j+1) + '-of-' + str(num_captures) + '_' +\
+            str(tempC) + \
+            '.tif'
 
         img.save(str(fname))
+
         '''
         if (depth==16):
 

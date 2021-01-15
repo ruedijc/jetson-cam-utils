@@ -68,7 +68,7 @@ def show_camera():
                 print('Timestamp was : ',ts.isoformat())
                 fname = 'ctx_'+ \
                     str(ts.isoformat()) + \
-                    '.jpg'
+                    '.tif'
                 # save the image
                 #img.save(str(fname))
                 cv2.imwrite(fname,img)
