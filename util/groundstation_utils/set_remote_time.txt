@@ -1,0 +1,9 @@
+#
+# Example- 
+# Synchronize date and time of a remote host with a server over ssh
+#
+# Set remote system date using local server time (push) 
+#ssh user@server sudo date -s @`( date -u +"%s" )`
+
+ssh labuser@192.168.x.x sudo date -s @'( date -u +"%s" )'
+

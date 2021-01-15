@@ -26,10 +26,15 @@ mkfs.ext4 /dev/sda1
 
 #Once formatting has been completed, now mount the partition to "/ssd" for example
 
-mount /dev/sda1 /ssd
+mount /dev/sda1 /media/msata/
 
 # to make it permanent, make an entry in /etc/fstab file:
 
-/dev/sda1	/ssd	ext4	defaults     0   0
+/dev/sda1	/media/msata/	ext4	defaults     0   0
 
-# the end
+# drive should be added
+
+# however, ownership is root. now give ownership to a user (e.g. labuser)
+# logged in as the target owner user -
+
+sudo chown $USER:$USER /media/msata/
