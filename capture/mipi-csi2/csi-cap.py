@@ -56,8 +56,8 @@ def show_camera():
             # reading the raw image as img
             ret_val, img = cap.read()
             # create a thumbnail for previewing
-            #img_resized = cv2.resize(img,(800,600), interpolation=cv2.INTER_AREA)
-            cv2.imshow("CSI Camera", img)
+            img_resized = cv2.resize(img,(800,450), interpolation=cv2.INTER_AREA)
+            cv2.imshow("CSI Camera", img_resized)
             # This also acts as
             keyCode = cv2.waitKey(30) & 0xFF
             # Stop the program on the ESC key
@@ -66,12 +66,17 @@ def show_camera():
             if keyCode == 32:
                 ts = datetime.now()
                 print('Timestamp was : ',ts.isoformat())
+                '''
                 fname = 'ctx_'+ \
                     str(ts.isoformat()) + \
                     '.tif'
+                '''
+                fname = 'hsi_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f") + \
+                   '.tif'
                 # save the image
                 #img.save(str(fname))
                 cv2.imwrite(fname,img)
+
         cap.release()
         cv2.destroyAllWindows()
     else:
