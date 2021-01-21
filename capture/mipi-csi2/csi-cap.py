@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # MIT License
 # Copyright (c) 2019 JetsonHacks
 # See license
@@ -71,7 +73,7 @@ def show_camera():
                     str(ts.isoformat()) + \
                     '.tif'
                 '''
-                fname = 'hsi_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f") + \
+                fname = 'ctx_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f") + \
                    '.tif'
                 # save the image
                 #img.save(str(fname))

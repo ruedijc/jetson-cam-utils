@@ -1,0 +1,96 @@
+# Evaluating images autonomously
+
+Imagemagic Identify can give you info about images on the command line:
+
+$ identify -verbose test.tif 
+
+Gives:
+ identify -verbose ./ctx_2021-01-21_12-12-21.250862.tif 
+Image: ./ctx_2021-01-21_12-12-21.250862.tif
+  Format: TIFF (Tagged Image File Format)
+  Mime type: image/tiff
+  Class: DirectClass
+  Geometry: 3840x2160+0+0
+  Units: PixelsPerInch
+  Type: TrueColor
+  Base type: TrueColor
+  Endianess: LSB
+  Colorspace: sRGB
+  Depth: 8-bit
+  Channel depth:
+    red: 8-bit
+    green: 8-bit
+    blue: 8-bit
+  Channel statistics:
+    Pixels: 8294400
+    Red:
+      min: 0 (0)
+      max: 255 (1)
+      mean: 136.448 (0.535092)
+      standard deviation: 69.5866 (0.272889)
+      kurtosis: -1.14282
+      skewness: 0.0246322
+      entropy: 0.96534
+    Green:
+      min: 0 (0)
+      max: 255 (1)
+      mean: 128.566 (0.504181)
+      standard deviation: 64.7014 (0.253731)
+      kurtosis: -0.951416
+      skewness: 0.303608
+      entropy: 0.952111
+    Blue:
+      min: 0 (0)
+      max: 255 (1)
+      mean: 126.086 (0.494455)
+      standard deviation: 63.5119 (0.249066)
+      kurtosis: -0.880667
+      skewness: 0.337487
+      entropy: 0.954549
+  Image statistics:
+    Overall:
+      min: 0 (0)
+      max: 255 (1)
+      mean: 130.367 (0.511243)
+      standard deviation: 65.9857 (0.258768)
+      kurtosis: -1.00153
+      skewness: 0.221671
+      entropy: 0.957333
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33)
+    green primary: (0.3,0.6)
+    blue primary: (0.15,0.06)
+    white point: (0.3127,0.329)
+  Background color: white
+  Border color: srgb(223,223,223)
+  Matte color: grey74
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 3840x2160+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: LZW
+  Orientation: TopLeft
+  Properties:
+    date:create: 2021-01-21T12:12:21-06:00
+    date:modify: 2021-01-21T12:12:21-06:00
+    signature: 5dffe8ce4bcd735825995be132ee26dca6bec887e92ddeb02bcdc977d5ad283f
+    tiff:alpha: unspecified
+    tiff:endian: lsb
+    tiff:photometric: RGB
+    tiff:rows-per-strip: 1
+  Artifacts:
+    filename: ./ctx_2021-01-21_12-12-21.250862.tif
+    verbose: true
+  Tainted: False
+  Filesize: 14.28MB
+  Number pixels: 8.294M
+  Pixels per second: 21.83MB
+  User time: 0.380u
+  Elapsed time: 0:01.379
+  Version: ImageMagick 6.9.7-4 Q16 aarch64 20170114 http://www.imagemagick.org
+
