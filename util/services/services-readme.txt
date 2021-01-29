@@ -1,3 +1,27 @@
+
+
+Global control parameters
+===================================
+
+global error gathering file -
+/etc/hsi-config/error_filepath
+contains only the path and filename for writing out errors. any errors can concat to this file
+/media/msata/logs/error_log
+
+
+Eyes off - controls whether or not images are being captured
+any capture mechansim should reference the value in this file before capturing/saving images
+/etc/hsi-config/eyes_off
+1 or 0, 1=no capturing, 0=capture enabled
+
+
+functions
+=====================================
+prepare-for-powerloss.sh
+since the TX2i will reboot automatically after a software shutdown, this script will put the device into a 'system halt' mode where disk writes stop and it's OK to remove external power. THis would be called when/if alphaspace needs to shut our system down. When power is eventually restored, the system should boot up normally (need to test & verify).
+
+
+
 Services
 ==============
 
@@ -10,24 +34,43 @@ run frequency:
 /etc/hsi-config/hsi_task_a_frequency (int seconds)
 
 parameters:
-/etc/hsi-config/hsi_task_a_config  (contents below)
+/etc/hsi-config/hsi_task_a.config  (contents below)
+-----------------------------------------------------------------
+#
+# /etc/chimp/capture-config
+# configuration file for nanohmics chip-scale hyperspectral imaging payload image capture
+# for taking sync'ed hsi and ctx images
+# 
 
-[hsi_task_config]
-# hsi exposure settings
-hsi_exposure_auto 	(0 or 1)
+# HSI min exposure, us 
+HSI_EXPOSURE_MIN 5000
 
-# number of samples of hsi images (at each exposure if multiple exposures)
-hsi_samples		(int samples)
+# HSI max exposure, us
+HSI_EXPOSURE_MIN 5000  
 
-# if not auto exposure, use these settings
-hsi_exposure_min 	(long nanoseconds)
-hsi_exposure_min 	(long nanoseconds)
-hsi_exposure_steps (int number of different exposures to sample)
+# HSI set exposure to auto (1 = on 0=off)
+HSI_EXPOSURE_AUTO 0  
 
-# operation modes
-hsi_save_path 		('string' eg '/mega/msata/task_a/' )
-hsi_task_a_frequency  	(in seconds)
-hsi_task_a_max_disk_MB 	(float MB)    (if hsi_save_path gets to max_disk_MB, delete oldest entries in hsi_save_path
+# HSI number of exposure steps to perform from min to max ( set 1 = use AE between min and max exposure limits)
+HSI_EXPOSURE_STEPS 5
+
+# HSI number of images to capture at each exposure
+HSI_SAMPLES 3
+
+# Capture a single context camera image along with a batch of exposure captures ( 0 = don't capture Ctx image)
+CTX_SYNC_CAPTURE 1
+
+# Context camera, compressed image quality level, 10-99 save jpg, 100 = save as tif
+CTX_IMG_QUALITY 95
+
+
+# Save Path for image captures
+HSI_SAVE_PATH 		"/media/msata/task_a/"
+
+# Maximum size of files on disk before dropping old files, in GB
+HSI_TASK_A_MAX_DISK_GB  200
+
+#END----------------------------------------------------------------
 
 When run, this task grabs HSI and CTX images and saves them to storage
 By default, it grabs several HSI images, and a single CTX image
