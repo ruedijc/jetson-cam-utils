@@ -1,0 +1,17 @@
+# hsi-cam-capture service
+# capture sets of hsi and context camera images
+# hsi-cam-capture.py uses configuration in /etc/hsi-config
+# for periodic captures, see hsi-cam-capture.timer
+#
+# place in /etc/systemd/system/hsi-cam-capture.service
+[Unit]
+Description=HSI periodic camera capture service
+#After=network.target
+
+[Service]
+Type=oneshot
+User=labuser
+ExecStart=/home/labuser/development/jetson-cam-utils/util/services/hsi-cam-capture.py
+
+[Install]
+WantedBy=multi-user.target
