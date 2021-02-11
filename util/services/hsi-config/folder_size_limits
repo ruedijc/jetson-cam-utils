@@ -1,0 +1,5 @@
+#folder size limit for disk maintainer service
+size_limit_exp_a_folder="8.0"
+size_limit_exp_z_folder="8.0"
+size_limit_queue_folder="1.0"
+

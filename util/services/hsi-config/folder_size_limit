@@ -1,0 +1,2 @@
+#folder size limit for disk maintainer service
+size_limit_GB="0.6"

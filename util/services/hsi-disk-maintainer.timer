@@ -1,0 +1,16 @@
+# hsi-disk-maintainer.timer
+# timer for hsi-disk-maintainer.service
+# periodically check and maintain folder quota sizes
+#
+# place in /etc/systemd/system/hsi-disk-maintainer.timer
+
+[Unit]
+Description=Timer for HSI disk maintainer service
+
+[Timer]
+OnUnitActiveSec=60s
+OnBootSec=60s
+
+[Install]
+WantedBy=timers.target
+

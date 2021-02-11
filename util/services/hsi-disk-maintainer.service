@@ -1,0 +1,18 @@
+# hsi-disk-maintainer service
+# when run, deletes oldest files in controlled folders until those folders meet their quota size 
+# as prescribed in /etc/hsi-config/folder_size_limits
+#
+# run periodically with a timer
+#
+# place in /etc/systemd/system/hsi-disk-maintainer.service
+[Unit]
+Description=HSI periodic disk space maintainer service
+#After=network.target
+
+[Service]
+Type=oneshot
+User=labuser
+ExecStart=/home/labuser/development/jetson-cam-utils/util/services/hsi-disk-maintainer.sh
+
+[Install]
+WantedBy=multi-user.target
