@@ -16,9 +16,16 @@ size_limit_queue_folder="1.0" #size in GB
 source /etc/hsi-config/folder_size_limits
 
 
+size_limit_exp_a_folder="9"
+
 #beef="boop"
-#echo "size limit is: ${size_limit_GB}" 
+echo "size_limit_exp_a_folder is: ${size_limit_exp_a_folder}"
+echo "size_limit_exp_z_folder is: ${size_limit_exp_z_folder}"          
+echo "size_limit_queue_folder is: ${size_limit_queue_folder}"          
+
 #echo "hey now is ${beef}"
+
+sz_a="8.0"
 
 
 #   1.  change to directory in question
@@ -27,9 +34,9 @@ source /etc/hsi-config/folder_size_limits
 
 #cd /media/msata/task_a && ls -ltc | awk '{ if (!system("test -f " $9)) { size += $5; if (size > $size_limit_GB*2^30 ) system("ls " $9) } }'
 
-cd /media/msata/task_a && ls -ltc | awk '{ if (!system("test -f " $9)) { size += $5; if (size > $size_limit_exp_a_folder*2^30 ) system("rm " $9) } }'
+cd /media/msata/task_a && ls -ltc | awk '{ if (!system("test -f " $9)) { size += $5; if (size > 8*2^30 ) system("rm " $9) } }'
 
-cd /media/msata/task_z && ls -ltc | awk '{ if (!system("test -f " $9)) { size += $5; if (size > $size_limit_exp_z_folder*2^30 ) system("rm " $9) } }'
+cd /media/msata/task_z && ls -ltc | awk '{ if (!system("test -f " $9)) { size += $5; if (size > 8*2^30 ) system("ls " $9) } }'
 
-cd /media/msata/queue && ls -ltc | awk '{ if (!system("test -f " $9)) { size += $5; if (size > $size_limit_queue_folder*2^30 ) system("rm " $9) } }'
+cd /media/msata/queue && ls -ltc | awk '{ if (!system("test -f " $9)) { size += $5; if (size > 1*2^30 ) system("ls " $9) } }'
 
