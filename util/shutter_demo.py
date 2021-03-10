@@ -43,7 +43,8 @@ def open_shutter():
 
 def check_sunsensor():
     SS1, SS2 = False, False
-    p = subprocess.check_output('i2cget -y -f 0x00 0x77 0x00', shell = True) # Read inputs as Hex
+    p = subprocess.check_output('i2cget -y -f 0x00 0x77 0x01', shell = True) # Read inputs as Hex
+    print(p)
     reg = bin(int(p,16)).zfill(8)    					     # Convert Hex to Binry
     SS1, SS2 = int(reg[3]), int(reg[2])				     # Set Sunsensor Bool
     print('Sunsensor: ',SS1, SS2, reg, bool('0'))

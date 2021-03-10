@@ -9,6 +9,8 @@ i2cset -y -f 0x00 0x77 0x07 0x00
 OUTREG=$(i2cget -y -f 0x00 0x77 0x03)
 printf 'existing output register is : 0x%X \n' ${OUTREG}
 
+
+#HIREG=${OUTREG}
 #AND the value of the pin with the existing register values
 HIREG=$(( ${OUTREG} & 2#11111101 ))
 
