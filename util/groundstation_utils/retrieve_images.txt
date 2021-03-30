@@ -17,7 +17,8 @@ scp -v labuser@192.168.39.6:/media/msata/file_queue/*.tif .
 scp -r -v labuser@192.168.39.6:/media/msata/file_queue .
 
 
-
+# alternatively, use rsync
+# note, --checksum option will use md5 checksum to evaluate files of the same size.
 
 
 
