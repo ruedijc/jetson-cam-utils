@@ -13,5 +13,3 @@ Type=oneshot
 User=labuser
 ExecStart=/home/labuser/development/jetson-cam-utils/util/services/hsi-cam-capture.py
 
-[Install]
-WantedBy=multi-user.target

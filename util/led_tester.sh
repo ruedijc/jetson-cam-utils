@@ -7,16 +7,16 @@ echo "Cycling LEDs..."
 for (( ; ; ))
 do
     ./led1_on.sh
-    sleep 0.3
+    sleep 5
     ./led1_off.sh
     ./led2_on.sh
-    sleep 0.3
+    sleep 5
     ./led2_off.sh
     ./led3_on.sh
-    sleep 0.3
+    sleep 5
     ./led3_off.sh
     ./led4_on.sh
-    sleep 0.3
+    sleep 5
     ./led4_off.sh
 done
 echo "LED test complete."

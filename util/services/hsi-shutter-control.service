@@ -1,0 +1,19 @@
+# hsi-shutter-control service
+# must always be running
+# loops over reading sun sensors, and opening/closing the shutter
+
+# place in /etc/systemd/system/hsi-shutter-control.service
+[Unit]
+Description=HSI automatic sun shutter control
+#After=network.target
+
+[Service]
+Type=simple
+User=labuser
+ExecStart=/home/labuser/development/jetson-cam-utils/util/services/hsi-shutter-control.sh
+Restart=always
+RestartSec=30
+
+
+[Install]
+WantedBy=multi-user.target

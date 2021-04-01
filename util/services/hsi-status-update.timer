@@ -1,0 +1,16 @@
+# hsi-status-update.timer
+# timer for hsi-status-update.service
+# periodically write status to disk for review on ground
+#
+# place in /etc/systemd/system/hsi-status-update.timer
+
+[Unit]
+Description=Timer for HSI status update service
+
+[Timer]
+OnUnitActiveSec=600s
+OnBootSec=60s
+
+[Install]
+WantedBy=timers.target
+

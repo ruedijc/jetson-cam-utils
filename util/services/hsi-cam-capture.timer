@@ -8,8 +8,8 @@
 Description=Timer for HSI image capture service
 
 [Timer]
-OnUnitActiveSec=60s
-OnBootSec=60s
+OnUnitActiveSec=120s
+OnBootSec=120s
 
 [Install]
 WantedBy=timers.target
