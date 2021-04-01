@@ -27,3 +27,5 @@ i2cset -y -f 0x00 0x77 0x02 ${OUTREG}
 NEWREG=$(i2cget -y -f 0x00 0x77 0x02)  
 printf 'new output register is  : 0x%X \n' ${NEWREG}
 
+echo 0 > /var/hsi/led1_state
+

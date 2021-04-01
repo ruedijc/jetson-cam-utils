@@ -1,0 +1,14 @@
+# hsi system status update service
+# runs a script to gather status information, and directs it into a file
+# for periodic status writes, see hsi-status-update.timer
+#
+# place in /etc/systemd/system/hsi-status-update.service
+[Unit]
+Description=HSI periodic status update service
+#After=network.target
+
+[Service]
+Type=oneshot
+User=labuser
+ExecStart=/home/labuser/development/jetson-cam-utils/util/services/hsi-status-update.sh
+

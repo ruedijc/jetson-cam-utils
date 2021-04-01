@@ -1,0 +1,13 @@
+# hsi-startup-config service
+# must be run on startup to set GPIO io mode direction (in/out) 
+# and any other settings needed for startup
+
+# place in /etc/systemd/system/hsi-startup-config.service
+[Unit]
+Description=HSI startup configuration 
+
+[Service]
+Type=oneshot
+User=labuser
+ExecStart=/home/labuser/development/jetson-cam-utils/util/services/hsi-startup-config.sh
+

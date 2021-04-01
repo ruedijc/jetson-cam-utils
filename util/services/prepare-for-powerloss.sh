@@ -6,6 +6,9 @@
 # Halting the system will stop disk writes and sleep the system so it should be safe to remote external power.
 # When power is restored the system should reboot normally.
 #
+# halt will begin shutdown but stop before it would normally reboot.
+# power must be cycled to recover from this state!!!!
 
-sudo shutdown -h now
+sudo halt
+
 
