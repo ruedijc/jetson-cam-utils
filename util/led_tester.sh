@@ -3,20 +3,24 @@
 # cycle through LEDs
 #
 echo "Cycling LEDs..."
-#for (( c=1; c<=10; c++ ))
-for (( ; ; ))
+for (( c=1; c<=10; c++ ))
+#for (( ; ; ))
 do
-    ./led1_on.sh
+    echo 1 > LED1
     sleep 0.3
-    ./led1_off.sh
-    ./led2_on.sh
+    echo 0 > LED1
+    echo 1 > LED2
     sleep 0.3
-    ./led2_off.sh
-    ./led3_on.sh
+    echo 0 > LED2
+    echo 1 > LED3
     sleep 0.3
-    ./led3_off.sh
-    ./led4_on.sh
+    echo 0 > LED3
+    echo 1 > LED4
     sleep 0.3
-    ./led4_off.sh
+    echo 0 > LED4
 done
+echo 0 > LED1
+echo 0 > LED2
+echo 0 > LED3
+echo 0 > LED4
 echo "LED test complete."
