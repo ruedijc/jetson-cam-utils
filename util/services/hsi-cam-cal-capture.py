@@ -33,7 +33,7 @@ print(f'Dwell time between conditions in msec: {hsi_cal_dwell_msec}')
 #test:
 print( "mkdir > " + str(hsi_cal_save_path) )
 #os.system("mkdir > " + str(hsi_cal_save_path) )
-????
+????verify
 
 #setup internal led state holders
 led1_state = 0
@@ -43,52 +43,49 @@ led4_state = 0
 
 def set_led(n,x):
     if (n==1) :
-        #Todo: update sysfs location for LED1
+        #see Spacely GPIO breakout map for sysfs assignments
         if(x==0):
-            #os.system("echo 0 > /sys/class/gpio/gpio222/value")
+            os.system("echo 0 > /sys/class/gpio/gpio222/value")
             print("LED1 off")
             led1_state = 0
         elif(x==1):
-            #os.system("echo 1 > /sys/class/gpio/gpio222/value")
+            os.system("echo 1 > /sys/class/gpio/gpio222/value")
             print("LED1 off")
             led1_state = 1
         else:
             print("no action")
 
     elif (n==2) :
-        #Todo: update sysfs location for LED2
         if(x==0):
-            #os.system("echo 0 > /sys/class/gpio/gpio222/value")
+            os.system("echo 0 > /sys/class/gpio/gpio223/value")
             print("LED2 off")
             led2_state = 0
         elif(x==1):
-            #os.system("echo 1 > /sys/class/gpio/gpio222/value")
+            os.system("echo 1 > /sys/class/gpio/gpio223/value")
             print("LED2 off")
             led2_state = 1
         else:
             print("no action")
 
     elif (n==3) :
-        #Todo: update sysfs location for LED3
         if(x==0):
-            #os.system("echo 0 > /sys/class/gpio/gpio222/value")
+            os.system("echo 0 > /sys/class/gpio/gpio224/value")
             print("LED3 off")
             led3_state = 0
         elif(x==1):
-            #os.system("echo 1 > /sys/class/gpio/gpio222/value")
+            os.system("echo 1 > /sys/class/gpio/gpio224/value")
             print("LED3 off")
             led3_state = 1
         else:
             print("no action")
 
     elif (n==4) :
-            #Todo: update sysfs location for LED4
         if(x==0):
-            #os.system("echo 0 > /sys/class/gpio/gpio222/value")
+            os.system("echo 0 > /sys/class/gpio/gpio225/value")
             print("LED4 off")
             led4_state = 0
         elif(x==1):
-            #os.system("echo 1 > /sys/class/gpio/gpio222/value")
+            os.system("echo 1 > /sys/class/gpio/gpio225/value")
             print("LED4 off")
             led4_state = 1
         else:
@@ -96,6 +93,10 @@ def set_led(n,x):
     else :
         print("invalid LED number. no action")
 
+
+
+#before continuing, close the shutter
+os.system("/home/labuser/development/jetson-cam-utils/util/shutter_close.sh")
 
 
 depth = 16 # set bit depth, 8 or 16, assumes mono
@@ -121,20 +122,23 @@ ximg = xiapi.Image()
 
 if (hsi_exposure > 3 and  hsi_exposure < 1000001 ) :
     #requesting a valid fixed exposure
+    cam.disable_aeag()
     cam.set_exposure(hsi_exposure)
 else :
     #invalid exposure or -1. set to autoexposure
-    cam.set_exposure(auto????)
+    cam.enable_aeag()
+
+
 
 #start data acquisition
 print('Starting image acquisition...')
 cam.start_acquisition()
 
 # set LED initial Condition
-set_led1(0)
-set_led2(0)
-set_led3(0)
-set_led4(0)
+set_led(1,0)
+set_led(2,0)
+set_led(3,0)
+set_led(4,0)
 
 
 #set of conditions to test. row values are [ LED1 LED2 LED3 LED4 ]
@@ -164,10 +168,10 @@ for i in range(0, len(led_conditions)-1, 1) :
 
     # set the LED outputs
     #e.g. led_conditions[i] = [ 1 1 1 1]
-    set_led1( led_conditions[i][0] )
-    set_led2( led_conditions[i][1] )
-    set_led3( led_conditions[i][2] )
-    set_led4( led_conditions[i][3] )
+    set_led(1, led_conditions[i][0] )
+    set_led(2, led_conditions[i][1] )
+    set_led(3, led_conditions[i][2] )
+    set_led(4, led_conditions[i][3] )
 
 
     #!!! IMPORTANT !!!
@@ -226,7 +230,12 @@ cam.stop_acquisition()
 #stop communication
 cam.close_device()
 
-    
+#set all leds to off
+set_led(1,0)
+set_led(2,0)
+set_led(3,0)
+set_led(4,0) 
+
 #img.show()
 
 elapsed = time.time() - t

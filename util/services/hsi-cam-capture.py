@@ -40,6 +40,26 @@ print(f'Max size on disk in GB: {hsi_task_max_disk_gb}')
 
 
 
+#before conntinuing, see if the shutter can be opened -
+os.system("/home/labuser/development/jetson-cam-utils/util/shutter_open.sh")
+
+#wait 2 seconds to give shutter time to open
+time.sleep(2.0)
+# check shutter state to see if it is open (0) or closed (1)
+f = open("/var/hsi/shutter_state", "r")
+shutter_state = int(f.read())
+f.close()
+if (shutter_state == 0):
+    #shutter state = 0
+    print("Shutter open. Continuing execution.")
+else:
+    #shutter state = 1
+    print("Shutter closed. Stopping execution.")
+    sys.exit("Could not open shutter. Capture execution stopped.")
+
+
+
+
 #setup context camera whether it gets captured or not - 
 Gst.init(sys.argv)
 
@@ -106,7 +126,7 @@ if(ctx_sync_capture == 1):
     capture_context_frame()
 
 
-depth = 8 # set bit depth, 8 or 16, assumes mono
+depth = 16 # set bit depth, 8 or 16, assumes mono
 exposure_start = hsi_exposure_min # 10k = 10ms
 exposure_end = hsi_exposure_max # 100k= 100ms
 num_captures = hsi_samples # number of captures at eaxh exposures
@@ -137,28 +157,28 @@ else:
 #create instance of Image to store image data and metadata
 ximg = xiapi.Image()
 
+#start data acquisition
+print('Starting data acquisition...')
+cam.start_acquisition()
 
-for exp in exposure_list:
-    print("exposure: ", exp)
-    
 
+if (hsi_exposure_auto == 1) :
+    #take pictures in autoexposure mode
+    cam.enable_aeag()
 
-    #cam.set_exposure(10000)
-    cam.set_exposure(exp) # in us
+    #wait 5 seconds for autoexposure to adjsut
+    time.sleep(5.0 ) 
+
     print('Current exposure is %s us.' %cam.get_exposure())
     print('Current gain is %s' %cam.get_gain())
 
-    #create instance of Image to store image data and metadata
-    #ximg = xiapi.Image()
-
-    #start data acquisition
-    print('Starting data acquisition...')
-    cam.start_acquisition()
-
+    
     for j in range(num_captures):
         #stamp current time
         ts = datetime.now()
-        tempC = 4021
+        #tempC = 4021
+        temp_centiK = int( (273.15+cam.get_temp())*100 ))
+
 
         #get data and pass them from camera to img
         cam.get_image(ximg)
@@ -190,43 +210,86 @@ for exp in exposure_list:
         print('Timestamp was : ',ts.isoformat())
         # tried saving to tmpfs (/dev/shm) but didn't save time.
         # probably just slow writing?
-        '''
-        fname = 'hsi_'+ \
-            str(ts.isoformat()) + '_' + \
-            str(real_exp) + 'us_' + \
-            str(j+1) + '-of-' + str(num_captures) + \
-            '.tif'
-        '''
 
         fname = hsi_save_path + 'hsi_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f")+'_' + \
             str(real_exp) + 'us_' + \
             str(j+1) + '-of-' + str(num_captures) + '_' +\
-            str(tempC) + \
+            str(temp_centiK) + \
             '.tif'
-
         img.save(str(fname))
 
-        '''
-        if (depth==16):
+        #done saving single sample
 
-            img.save('xi_example.tif')
-            #img.save('xi_example.png')
-            #img.save('xi_example.bmp') no 16-bit bmp
-            #img.save('xi_example.jpg') no 16-bit jpeg
-        else:
-            img.save('xi_example.tif')
-            #img.save('xi_example.png')
-            #img.save('xi_example.bmp')
-            #img.save('xi_example.jpg')
-        '''
+    #done with number of capures
 
-    #stop data acquisition
-    print('Stopping acquisition...')
-    cam.stop_acquisition()
+else:
+    for exp in exposure_list:
+        print("exposure: ", exp)
+        
+        cam.disable_aeag()
+        cam.set_exposure(exp) # in us
+
+        #wait 2x the exposure time to allow for camera to adjust
+        time.sleep(2.0 * (exp/1000000)) 
+
+        print('Current exposure is %s us.' %cam.get_exposure())
+        print('Current gain is %s' %cam.get_gain())
+
+        for j in range(num_captures):
+            #stamp current time
+            ts = datetime.now()
+            #tempC = 4021
+            temp_centiK = int( (273.15+cam.get_temp())*100 ))
+
+            #get data and pass them from camera to img
+            cam.get_image(ximg)
+
+            real_exp = cam.get_exposure() # get real exposure vs commanded exp
+
+            #create numpy array with data from camera. Dimensions of array are determined
+            #by imgdataformat
+            #NOTE: PIL takes RGB bytes in opposite order, so invert_rgb_order is True
+            data = ximg.get_image_data_numpy(invert_rgb_order=True)
+
+            #stop data acquisition
+            #print('Stopping acquisition...')
+            #cam.stop_acquisition()
+
+            #print('End exposure is %s us.' %cam.get_exposure())
+            #print('End gain is %s' %cam.get_gain())
+
+            #show acquired image
+            print('Saving image...')
+            # fromarray(object, mode) => modes
+            # see https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-modes
+            if (depth==16):
+                img = PIL.Image.fromarray(data, 'I;16')  # MONO8: L, MONO16: I;16, I;16N
+            else:
+                img = PIL.Image.fromarray(data, 'L')  # MONO8: L, MONO16: I;16, I;16N
+
+
+            print('Timestamp was : ',ts.isoformat())
+            # tried saving to tmpfs (/dev/shm) but didn't save time.
+            # probably just slow writing?
+
+            fname = hsi_save_path + 'hsi_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f")+'_' + \
+                str(real_exp) + 'us_' + \
+                str(j+1) + '-of-' + str(num_captures) + '_' +\
+                str(temp_centiK) + \
+                '.tif'
+            img.save(str(fname))
+            #done with samples
+    #done with exposure list
+
+#stop data acquisition
+print('Stopping acquisition...')
+cam.stop_acquisition()
 
 #stop communication
 cam.close_device()
 
+#before finishing, close the shutter
+os.system("/home/labuser/development/jetson-cam-utils/util/shutter_close.sh")
     
 #img.show()
 

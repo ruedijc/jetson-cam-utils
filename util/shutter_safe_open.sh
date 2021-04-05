@@ -1,21 +1,46 @@
 #!/bin/bash
 #
 # open shutter if no sun is detected
+# CAUTION: only checks for sun at opening. User is required to check if task is long
+# CAUTION: user is responsible for closing shutter after use
 #
 
-# set NSLEEP high to enable shutter control
-/home/labuser/development/jetson-cam-utils/util/p13-6_on.sh
-# set BIN1 high to drive shutter open
-/home/labuser/development/jetson-cam-utils/util/p13-3_on.sh
-# remain high for 2 seconds
-sleep 1
-# set BIN1 low to stop driving shutter 
-/home/labuser/development/jetson-cam-utils/util/p13-3_off.sh
-# set shutter state indicator to 0 (open)
-echo 0 > /var/hsi/shutter_state
-# set NSLEEP high to disable shutter control
-/home/labuser/development/jetson-cam-utils/util/p13-6_off.sh
 
-echo "Shutter open"
+#read two sensor GPIO inputs
+# 0 == no sun, 1 == sun
+SUNSENSOR_2VAL=$(cat /sys/class/gpio/gpio220/value) 
+SUNSENSOR_1VAL=$(cat /sys/class/gpio/gpio221/value) 
+
+echo $SUNSENSOR_2VAL
+echo $SUNSENSOR_1VAL
+
+if [[ "$SUNSENSOR_1VAL" -eq "1" ]]
+then
+    echo 1 > /var/hsi/sunsensor_state 
+    echo "ss1 detects sun"
+    /home/labuser/development/jetson-cam-utils/util/shutter_close.sh  > /dev/null
+
+
+elif [[ "$SUNSENSOR_2VAL" -eq "1" ]]
+then 
+    echo 2 > /var/hsi/sunsensor_state 
+    echo "ss2 detects sun"
+    # close the shutter
+    /home/labuser/development/jetson-cam-utils/util/shutter_close.sh  > /dev/null
+
+else
+    echo 0 > /var/hsi/sunsensor_state 
+    echo "sun not detected. opening shutter"
+    # open the shutter
+    /home/labuser/development/jetson-cam-utils/util/shutter_open.sh  > /dev/null
+
+fi
+
+
+
+
+
+
+
 
 
