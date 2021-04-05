@@ -17,8 +17,8 @@ config.read('/etc/hsi-config/hsi_cal_task.ini')
 
 hsi_exposure = int(config['hsi']['HSI_EXPOSURE'])
 hsi_samples = int(config['hsi']['HSI_SAMPLES'])
-hsi_save_path = str(config['filesys']['HSI_CAL_SAVE_PATH'])
-hsi_save_path = hsi_save_path.strip('\"') #strip out double quotes
+hsi_cal_save_path = str(config['filesys']['HSI_CAL_SAVE_PATH'])
+hsi_cal_save_path = hsi_cal_save_path.strip('\"') #strip out double quotes
 hsi_task_max_disk_gb = float(config['filesys']['HSI_CAL_TASK_MAX_DISK_GB'])
 hsi_cal_dwell_msec = int(config['hsi']['HSI_CAL_DWELL_MS'])
 
@@ -28,6 +28,12 @@ print(f'Xi cal HSI Samples: {hsi_samples}')
 print(f'Cal Save Path: {hsi_cal_save_path}')
 print(f'Max size on disk in GB: {hsi_task_max_disk_gb}')
 print(f'Dwell time between conditions in msec: {hsi_cal_dwell_msec}')
+
+# try to mkdir for save path, incase it doesn't already exist
+#test:
+print( "mkdir > " + str(hsi_cal_save_path) )
+#os.system("mkdir > " + str(hsi_cal_save_path) )
+????
 
 #setup internal led state holders
 led1_state = 0
@@ -180,7 +186,9 @@ for i in range(0, len(led_conditions)-1, 1) :
     for j in range(num_captures):
         #stamp current time
         ts = datetime.now()
-        tempC = 4021 ?????
+        #tempC = cam.get_temp()
+        temp_centiK = int( (273.15+cam.get_temp())*100 ))
+        #print("cam temperature centiK: " + str(int( (273.15+cam.get_temp())*100 )))
 
         #get data and pass them from camera to img
         cam.get_image(ximg)
@@ -203,8 +211,8 @@ for i in range(0, len(led_conditions)-1, 1) :
         fname = hsi_cal_save_path + 'hsi_cal_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f")+'_' + \
             str(real_exp) + 'us_' + \
             str(j+1) + '-of-' + str(num_captures) + '_' +\
-            str(tempC) + \
             str(led1_state) + str(led2_state) + str(led3_state) + str(led4_state) + \
+            str(temp_centiK) + \
             '.tif'
 
         img.save(str(fname))
