@@ -31,9 +31,8 @@ print(f'Dwell time between conditions in msec: {hsi_cal_dwell_msec}')
 
 # try to mkdir for save path, incase it doesn't already exist
 #test:
-print( "mkdir > " + str(hsi_cal_save_path) )
-#os.system("mkdir > " + str(hsi_cal_save_path) )
-????verify
+print( "mkdir " + str(hsi_cal_save_path) )
+os.system("mkdir " + str(hsi_cal_save_path) )
 
 #setup internal led state holders
 led1_state = 0
@@ -42,6 +41,11 @@ led3_state = 0
 led4_state = 0
 
 def set_led(n,x):
+    global led1_state
+    global led2_state
+    global led3_state
+    global led4_state
+
     if (n==1) :
         #see Spacely GPIO breakout map for sysfs assignments
         if(x==0):
@@ -50,7 +54,7 @@ def set_led(n,x):
             led1_state = 0
         elif(x==1):
             os.system("echo 1 > /sys/class/gpio/gpio222/value")
-            print("LED1 off")
+            print("LED1 on")
             led1_state = 1
         else:
             print("no action")
@@ -62,7 +66,7 @@ def set_led(n,x):
             led2_state = 0
         elif(x==1):
             os.system("echo 1 > /sys/class/gpio/gpio223/value")
-            print("LED2 off")
+            print("LED2 on")
             led2_state = 1
         else:
             print("no action")
@@ -74,7 +78,7 @@ def set_led(n,x):
             led3_state = 0
         elif(x==1):
             os.system("echo 1 > /sys/class/gpio/gpio224/value")
-            print("LED3 off")
+            print("LED3 on")
             led3_state = 1
         else:
             print("no action")
@@ -86,7 +90,7 @@ def set_led(n,x):
             led4_state = 0
         elif(x==1):
             os.system("echo 1 > /sys/class/gpio/gpio225/value")
-            print("LED4 off")
+            print("LED4 on")
             led4_state = 1
         else:
             print("no action")
@@ -163,8 +167,7 @@ led_conditions = [  [0, 0, 0, 0],
 
 
 #Cycle over all LED test conditions
-for i in range(0, len(led_conditions)-1, 1) :
-    print(led_conditions[i])
+for i in range(0, len(led_conditions), 1) :
 
     # set the LED outputs
     #e.g. led_conditions[i] = [ 1 1 1 1]
@@ -172,6 +175,12 @@ for i in range(0, len(led_conditions)-1, 1) :
     set_led(2, led_conditions[i][1] )
     set_led(3, led_conditions[i][2] )
     set_led(4, led_conditions[i][3] )
+
+    print("testing condition:")
+    print("led1: " + str(led_conditions[i][0]) )
+    print("led2: " + str(led_conditions[i][1]) )
+    print("led3: " + str(led_conditions[i][2]) )
+    print("led4: " + str(led_conditions[i][3]) )
 
 
     #!!! IMPORTANT !!!
@@ -186,12 +195,11 @@ for i in range(0, len(led_conditions)-1, 1) :
     #print('Current gain is %s' %cam.get_gain())
 
 
-
     for j in range(num_captures):
         #stamp current time
         ts = datetime.now()
         #tempC = cam.get_temp()
-        temp_centiK = int( (273.15+cam.get_temp())*100 ))
+        temp_centiK = int( (273.15+cam.get_temp())*100 )
         #print("cam temperature centiK: " + str(int( (273.15+cam.get_temp())*100 )))
 
         #get data and pass them from camera to img
@@ -215,7 +223,7 @@ for i in range(0, len(led_conditions)-1, 1) :
         fname = hsi_cal_save_path + 'hsi_cal_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f")+'_' + \
             str(real_exp) + 'us_' + \
             str(j+1) + '-of-' + str(num_captures) + '_' +\
-            str(led1_state) + str(led2_state) + str(led3_state) + str(led4_state) + \
+            str(led1_state) + str(led2_state) + str(led3_state) + str(led4_state) + '_' + \
             str(temp_centiK) + \
             '.tif'
 

@@ -4,6 +4,7 @@ import PIL.Image # for image saving
 from datetime import datetime # for timestamping
 import time
 import configparser   # to read config file
+import os #for shutter script calls
 
 import gi 
 gi.require_version('Gst', '1.0')
@@ -177,7 +178,7 @@ if (hsi_exposure_auto == 1) :
         #stamp current time
         ts = datetime.now()
         #tempC = 4021
-        temp_centiK = int( (273.15+cam.get_temp())*100 ))
+        temp_centiK = int( (273.15+cam.get_temp())*100 )
 
 
         #get data and pass them from camera to img
@@ -239,7 +240,7 @@ else:
             #stamp current time
             ts = datetime.now()
             #tempC = 4021
-            temp_centiK = int( (273.15+cam.get_temp())*100 ))
+            temp_centiK = int( (273.15+cam.get_temp())*100 )
 
             #get data and pass them from camera to img
             cam.get_image(ximg)

@@ -23,10 +23,9 @@ echo "LED4 state  	: " $(cat /var/hsi/led4_state)
 echo "shutter state  	: " $(cat /var/hsi/shutter_state)
 echo "sunsensor state	: " $(cat /var/hsi/sunsensor_state)
 echo "----Storage Status ------------------------------"
-echo "-------------------------------------------------"
+echo "-filesystem--------------------------------------"
 df -h
-du -h /media/msata/queue/
-du -h /media/msata/task_a/
-du -h /media/msata/task_z/
-du -h /media/msata/vid/ 
+echo "-external storage--------------------------------"
+du -h --max-depth=1 /media/msata
+du -h --max-depth=1 /media/sd 
 echo "----EOF _----------------------------------------"
