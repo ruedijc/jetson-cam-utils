@@ -1,4 +1,4 @@
-#!/bin/env python3
+#!/usr/bin/env python3
 ''' shutter testing program
     open/close the shutter 10 times
 '''

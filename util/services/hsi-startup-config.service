@@ -8,6 +8,6 @@ Description=HSI startup configuration
 
 [Service]
 Type=oneshot
-User=labuser
+User=root
 ExecStart=/home/labuser/development/jetson-cam-utils/util/services/hsi-startup-config.sh
 

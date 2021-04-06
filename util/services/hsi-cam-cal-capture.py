@@ -34,6 +34,7 @@ print(f'Dwell time between conditions in msec: {hsi_cal_dwell_msec}')
 print( "mkdir " + str(hsi_cal_save_path) )
 os.system("mkdir " + str(hsi_cal_save_path) )
 
+
 #setup internal led state holders
 led1_state = 0
 led2_state = 0
@@ -162,7 +163,8 @@ led_conditions = [  [0, 0, 0, 0],
                     [0, 1, 1, 1],
                     [1, 0, 1, 1],
                     [1, 1, 0, 1],
-                    [1, 1, 1, 1]
+                    [1, 1, 1, 1],
+                    [0, 0, 0, 0]
                  ]
 
 
