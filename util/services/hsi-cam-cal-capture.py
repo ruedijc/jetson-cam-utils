@@ -125,6 +125,11 @@ else:
 ximg = xiapi.Image()
 
 
+#start data acquisition
+print('Starting image acquisition...')
+cam.start_acquisition()
+
+
 if (hsi_exposure > 3 and  hsi_exposure < 1000001 ) :
     #requesting a valid fixed exposure
     cam.disable_aeag()
@@ -132,12 +137,11 @@ if (hsi_exposure > 3 and  hsi_exposure < 1000001 ) :
 else :
     #invalid exposure or -1. set to autoexposure
     cam.enable_aeag()
+    #set to exposure priority (vs gain priority)
+    cam.set_exp_priority(1.0)  
+    #set auto exposure max limit to 1 second (in usec)
+    cam.set_ae_max_limit(1000000)
 
-
-
-#start data acquisition
-print('Starting image acquisition...')
-cam.start_acquisition()
 
 # set LED initial Condition
 set_led(1,0)
