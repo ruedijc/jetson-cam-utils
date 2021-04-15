@@ -1,7 +1,7 @@
 #
 # ISSNL - examples of how to retrieve images (from host system)
 # 
-# Assumption - you're running this from a host. The ISSNL HSI system is at 192.168.x.x
+# Assumption - you're running this from a host. The ISSNL HSI system is at 10.0.0.2
 # general form:
 #     $ scp username@from_host:file.txt /local/directory/
 #     Host can be IP or domain name. Once you click return, you will be prompted for SSH password.
@@ -10,16 +10,25 @@
 
 # Copy file from a remote host to local host SCP example (-v gives progress) :
 # scp -v username@from_host:file.txt /local/directory/
-scp -v labuser@192.168.39.6:/media/msata/file_queue/*.tif .
+scp -v labuser@10.0.0.2:/media/msata/queue/*.tif .
 
 # Copy directory from a remote host to local host SCP example: (-v gives progress) :
 # $ scp -r -v username@from_host:/remote/directory/  /local/directory/
-scp -r -v labuser@192.168.39.6:/media/msata/file_queue .
+scp -r -v labuser@10.0.0.2:/media/msata/queue .
 
 
 # alternatively, use rsync
 # note, --checksum option will use md5 checksum to evaluate files of the same size.
-
+# rsync <OPTIONS> -e ssh /path/to/backup remoteuser@remotehost:/location/of/backup
+# Recommended options: -rRtmzv
+#
+# -r, --recursive         recurse into directories
+# -R, --relative          use relative path names
+# -t, --times             preserve modification times
+# -m, --prune-empty-dirs  prune empty directory chains from file-list
+# -z, --compress          compress file data during the transfer
+# -v, --verbose           increase verbosity
+rsync -rRtmzv -e ssh ./ labuser@10.0.0.2:/media/msata/queue
 
 
 

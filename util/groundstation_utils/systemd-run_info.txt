@@ -1,0 +1,47 @@
+
+
+systemd-run
+=========================================================
+
+transient timers
+
+It is possible to schedule the execution of tasks "on the fly", without manually creating dedicated timer and service units by using systemd-run. The command creates temporary units (they will not survive a reboot) inside the /run/systemd/transient directory if run globally, and inside /run/user/<user-uid>/systemd/transient directory if launched as a specific user (--user option).
+
+
+Examples:
+
+want date and time to be logged to a file every minute :
+$ systemd-run --user --on-calendar '*:0/1' /bin/sh -c "date >> ~/log.txt"
+Running timer as unit: run-r81a4fef38154401bbd8cdbd1e5c19d04.timer
+Will run service as unit: run-r81a4fef38154401bbd8cdbd1e5c19d04.service
+
+To remove/disable a transient timer, all we have to do is to stop it. In this case we would run:
+
+$ systemctl --user stop run-r81a4fef38154401bbd8cdbd1e5c19d04.timer
+
+
+another example - 
+
+systemd-run --user --on-calendar '2017-08-12 14:46' /bin/bash -c 'echo done >/tmp/done'
+
+
+For info on acceptable time formats for --on-calendar, see :
+see https://www.freedesktop.org/software/systemd/man/systemd.time.html#
+
+=====
+
+show timers - 
+systemctl list-timers --all
+
+
+example one-shots
+
+systemd-run --user --on-calendar '2021-10-12 14:46' --unit hsi_cam_cal_capture.service
+
+systemd-run --user --on-calendar '2022-01-14 22:46' --unit hsi_cam_capture.service
+
+
+example periodic task -
+
+Run cam cal capture every 5 minutes
+systemd-run --user --on-calendar '*:0/5' --unit hsi_cam_cal_capture.service
