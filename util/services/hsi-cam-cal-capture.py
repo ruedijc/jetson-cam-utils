@@ -194,9 +194,6 @@ for i in range(0, len(led_conditions), 1) :
     # otherwise, you may get cross-talk between light values
     time.sleep(hsi_cal_dwell_msec/1000)
 
-    #wait one additional exposure time to make sure any previous capture is complete
-    time.sleep(cam.get_exposure()/1000000)
-
     #print('Current exposure is %s us.' %cam.get_exposure())
     #print('Current gain is %s' %cam.get_gain())
 
@@ -207,6 +204,11 @@ for i in range(0, len(led_conditions), 1) :
         #tempC = cam.get_temp()
         temp_centiK = int( (273.15+cam.get_temp())*100 )
         #print("cam temperature centiK: " + str(int( (273.15+cam.get_temp())*100 )))
+
+        #take 5 pre-images to allow autoexposure to work if active
+        for x in range(5):
+            #get data and pass them from camera to img
+            cam.get_image(ximg)
 
         #get data and pass them from camera to img
         cam.get_image(ximg)
@@ -234,6 +236,9 @@ for i in range(0, len(led_conditions), 1) :
             '.tif'
 
         img.save(str(fname))
+
+        #wait n x  exposure time to make sure any previous capture is complete before continuing
+        time.sleep(2*real_exp/1000000)
 
 
 # done with cal sequence
