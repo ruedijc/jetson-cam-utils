@@ -8,16 +8,16 @@
 #/home/labuser/development/jetson-cam-utils/util/p13-6_on.sh
 echo 1 > /sys/class/gpio/gpio227/value
 
-# set BIN1 high to drive shutter open
+# set BIN2 high to drive shutter open
 #/home/labuser/development/jetson-cam-utils/util/p13-3_on.sh
-echo 1 > /sys/class/gpio/gpio229/value
+echo 1 > /sys/class/gpio/gpio228/value
 
 # remain high for 1 seconds
 sleep 1
 
-# set BIN1 low to stop driving shutter 
+# set BIN2 low to stop driving shutter 
 #/home/labuser/development/jetson-cam-utils/util/p13-3_off.sh
-echo 0 > /sys/class/gpio/gpio229/value
+echo 0 > /sys/class/gpio/gpio228/value
 
 # set shutter state indicator to 0 (open)
 echo 0 > /var/hsi/shutter_state

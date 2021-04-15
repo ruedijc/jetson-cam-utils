@@ -16,6 +16,6 @@ def open_shutter():
 
 for j in range(10):
     open_shutter()
-    time.sleep(1)
+    time.sleep(5)
     close_shutter()
-    time.sleep(1)
+    time.sleep(5)
