@@ -19,7 +19,8 @@ then
     echo 1 > /var/hsi/sunsensor_state 
     echo "ss1 detects sun"
     /home/labuser/development/jetson-cam-utils/util/shutter_close.sh  > /dev/null
-
+    # set shutter state indicator to 0 (open)
+    echo 1 > /var/hsi/shutter_state
 
 elif [[ "$SUNSENSOR_2VAL" -eq "1" ]]
 then 
@@ -27,12 +28,16 @@ then
     echo "ss2 detects sun"
     # close the shutter
     /home/labuser/development/jetson-cam-utils/util/shutter_close.sh  > /dev/null
+    # set shutter state indicator to 0 (open)
+    echo 1 > /var/hsi/shutter_state
 
 else
     echo 0 > /var/hsi/sunsensor_state 
     echo "sun not detected. opening shutter"
     # open the shutter
     /home/labuser/development/jetson-cam-utils/util/shutter_open.sh  > /dev/null
+    # set shutter state indicator to 0 (open)
+    echo 0 > /var/hsi/shutter_state
 
 fi
 
