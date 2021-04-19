@@ -1,2 +1,7 @@
 #folder size limit for disk maintainer service
-size_limit_GB="0.6"
+size_limit_task3_folder="100.0"
+size_limit_task4_folder="100.0"
+size_limit_vid_folder="300.0"
+size_limit_task9_folder="100.0"
+size_limit_task10_folder="100.0"
+size_limit_queue_folder="1.0"
