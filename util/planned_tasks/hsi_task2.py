@@ -162,11 +162,18 @@ cam.start_acquisition()
 
 
 if (hsi_exposure_auto == 1) :
-    #take pictures in autoexposure mode
+    #set to autoexposure
     cam.enable_aeag()
+    #set to exposure priority (vs gain priority)
+    cam.set_exp_priority(1.0)  
+    #set auto exposure max limit to 1 second (in usec)
+    cam.set_ae_max_limit(1000000)
 
-    #wait 5 seconds for autoexposure to adjsut
-    time.sleep(5.0 ) 
+
+    #take 10 pre-roll images to allow autoexposure to work if active
+    for x in range(10):
+        #get data and pass them from camera to img
+        cam.get_image(ximg)
 
     print('Current exposure is %s us.' %cam.get_exposure())
     print('Current gain is %s' %cam.get_gain())
