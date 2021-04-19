@@ -34,12 +34,20 @@ echo "save path is: ${SAVE_PATH}"
 echo "max disk usage : ${TASK_MAX_DISK_GB}"
 
 
-if [ "CTX_VID_4K" = "1" ]; then
+#try and open the shutter
+SHUTTER_SAFE_OPEN="/home/labuser/development/jetson-cam-utils/util/shutter_safe_open.sh"
+"$SHUTTER_SAFE_OPEN"
+#sleep for 2 for shutter to open
+sleep 2
 
-    #DURATION=10 #recording duration in seconds
+
+#note posix = is the same as ==
+if [[ "$CTX_VID_4K" = "1" ]] 
+then
+
+    echo "capturing in 4k"
+
     TIME=$(date '+%Y-%m-%d.%H-%M-%S')
-    #LOCATION='/media/msata/queue/'
-    #FILE=$LOCATION$TIME'_hd_vid.h265'
     FILE=$SAVE_PATH$TIME'_4K_vid.h265'
     echo $FILE
 
@@ -55,10 +63,9 @@ if [ "CTX_VID_4K" = "1" ]; then
 
 else
 
-    #DURATION=10 #recording duration in seconds
+    echo "capturing in HD"
+
     TIME=$(date '+%Y-%m-%d.%H-%M-%S')
-    #LOCATION='/media/msata/queue/'
-    #FILE=$LOCATION$TIME'_hd_vid.h265'
     FILE=$SAVE_PATH$TIME'_hd_vid.h265'
     echo $FILE
 
