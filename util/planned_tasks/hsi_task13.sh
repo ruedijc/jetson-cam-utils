@@ -4,7 +4,7 @@ echo "stop all tasks"
 systemctl stop hsi*.service
 
 # close shutter
-/home/labuser/jetson-cam-utils/util/shutter_close.sh
+/home/labuser/development/jetson-cam-utils/util/shutter_close.sh
 
 # turn off all LEDs
-/home/labuser/jetson-cam-utils/util/all_leds_off.sh
+/home/labuser/development/jetson-cam-utils/util/all_leds_off.sh

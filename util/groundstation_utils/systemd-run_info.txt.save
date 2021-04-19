@@ -46,6 +46,13 @@ example periodic task -
 Run cam cal capture every 5 minutes
 systemd-run --user --on-calendar '*:0/5' --unit hsi_cam_cal_capture.service
 
+
 Set a one-time timer to Run a cal test in 30 seconds - 
 systemd-run --user --on-active=30s ~/development/jetson-cam-utils/util/services/hsi-cam-cal-capture.py
 
+or from remote - 
+
+ssh labuser@192.168.39.20 "systemd-run --user --on-active=30s ~/development/jetson-cam-utils/util/services/hsi-cam-cal-capture.py"
+
+from a remote computer, get status - 
+ssh labuser@192.168.39.20 "~/development/jetson-cam-utils/util/get_status.sh"
