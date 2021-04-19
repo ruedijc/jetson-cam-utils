@@ -1,0 +1,23 @@
+
+# List of commands to start planned tasks
+
+# task1 command - one-shot LED calibration sequence
+ssh labuser@tx2i-spacely.nanonet.local "~/tasks/hsi_task1.py"
+
+# task2 command - one-shot image capture sequence
+ssh labuser@tx2i-spacely.nanonet.local "~/tasks/hsi_task2.py"
+
+
+
+===
+
+
+# task11 command - manually clear the queue
+ssh labuser@tx2i-spacely.nanonet.local "~/tasks/hsi_task11.sh"
+
+# task13 command - stop all tasks
+ssh labuser@tx2i-spacely.nanonet.local "~/tasks/hsi_task13.sh"
+
+# task14 command - prepare for powerloss (shutdown - requires power cycle to restart)
+ssh labuser@tx2i-spacely.nanonet.local "~/tasks/hsi_task14.sh"
+
