@@ -1,0 +1,16 @@
+# hsi_task10.timer
+# timer for hsi-cam-capture.service
+# periodically capture images
+#
+# place in /etc/systemd/system/hsi_task10.timer
+
+[Unit]
+Description=Timer for HSI image capture service hsi_task10
+
+[Timer]
+OnUnitActiveSec=120s
+OnBootSec=120s
+
+[Install]
+WantedBy=timers.target
+

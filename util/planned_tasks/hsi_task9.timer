@@ -1,0 +1,16 @@
+# hsi_task9.timer
+# timer for hsi_task9.service
+# periodically capture images
+#
+# place in /etc/systemd/system/hsi_task9.timer
+
+[Unit]
+Description=Timer for HSI image capture service
+
+[Timer]
+OnUnitActiveSec=300s
+OnBootSec=300s
+
+[Install]
+WantedBy=timers.target
+

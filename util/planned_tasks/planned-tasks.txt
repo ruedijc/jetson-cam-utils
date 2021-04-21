@@ -6,3 +6,4 @@ copy ./hsi_config/* into /etc/hsi/
 
 Verify operation
 
+todo: tasks 5,7 hsi-video?
