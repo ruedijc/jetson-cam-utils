@@ -3,7 +3,7 @@ This folder contains planned tasks and config files
 For deployment - 
 copy ./* into ~/tasks/
 copy ./hsi_config/* into /etc/hsi/
+copy ./*.service into /etc/systemd/system/
+copy ./*.timer into /etc/systemd/system/
 
 Verify operation
-
-todo: tasks 5,7 hsi-video?
