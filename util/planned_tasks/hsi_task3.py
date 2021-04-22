@@ -34,6 +34,10 @@ print(f'Dwell time between conditions in msec: {hsi_cal_dwell_msec}')
 print( "mkdir " + str(hsi_cal_save_path) )
 os.system("mkdir " + str(hsi_cal_save_path) )
 
+# set all LEDs off 
+os.system("/home/labuser/development/jetson-cam-utils/util/all_leds_off.sh")
+
+
 
 #setup internal led state holders
 led1_state = 0

@@ -40,6 +40,8 @@ print(f'Max size on disk in GB: {hsi_task_max_disk_gb}')
 print(f'hsi dwell time, ms: {hsi_dwell_msec}')'
 
 
+# set all LEDs off 
+os.system("/home/labuser/development/jetson-cam-utils/util/all_leds_off.sh")
 #setup internal led state holders
 led1_state = 0
 led2_state = 0

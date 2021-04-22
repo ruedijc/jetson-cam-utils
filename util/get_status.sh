@@ -14,6 +14,9 @@ echo "----Status of HSI Services ----------------------"
 echo "-------------------------------------------------"
 systemctl list-unit-files --state=enabled | grep hsi 
 systemctl list-unit-files --state=disabled | grep hsi 
+echo "----Active HSI Service Timers ----------------"
+echo "-------------------------------------------------"
+systemctl list-timers | grep hsi 
 echo "----HSI Device States ---------------------------"
 echo "-------------------------------------------------"
 echo "LED1 state	: " $(cat /var/hsi/led1_state)

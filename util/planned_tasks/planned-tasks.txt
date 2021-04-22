@@ -2,8 +2,6 @@ This folder contains planned tasks and config files
 
 For deployment - 
 copy ./* into ~/tasks/
-copy ./hsi_config/* into /etc/hsi/
+copy ./hsi_config/* into /etc/hsi-config/
 copy ./*.service into /etc/systemd/system/
 copy ./*.timer into /etc/systemd/system/
-
-Verify operation

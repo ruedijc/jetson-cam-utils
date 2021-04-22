@@ -5,8 +5,8 @@
 Description=timer for hsi-startup-config
 
 [Timer]
-#runs once 15sec after startup
-OnBootSec=15sec
+#runs once 60sec after startup
+OnBootSec=60sec
 
 [Install]
 WantedBy=timers.target
