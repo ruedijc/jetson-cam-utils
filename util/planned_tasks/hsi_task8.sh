@@ -33,6 +33,10 @@ echo "4k? is: ${CTX_VID_4K}"
 echo "save path is: ${SAVE_PATH}"
 echo "max disk usage : ${TASK_MAX_DISK_GB}"
 
+# set all LEDs off 
+ALL_LEDS_OFF="/home/labuser/development/jetson-cam-utils/util/all_leds_off.sh" 
+"$ALL_LEDS_OFF"
+
 
 #try and open the shutter
 SHUTTER_SAFE_OPEN="/home/labuser/development/jetson-cam-utils/util/shutter_safe_open.sh"
@@ -41,12 +45,9 @@ SHUTTER_SAFE_OPEN="/home/labuser/development/jetson-cam-utils/util/shutter_safe_
 sleep 2
 
 
-if [ "CTX_VID_4K" = "1" ]; then
+if [ "$CTX_VID_4K" = "1" ]; then
 
-    #DURATION=10 #recording duration in seconds
     TIME=$(date '+%Y-%m-%d.%H-%M-%S')
-    #LOCATION='/media/msata/queue/'
-    #FILE=$LOCATION$TIME'_hd_vid.h265'
     FILE=$SAVE_PATH$TIME'_4K_vid.h265'
     echo $FILE
 
@@ -87,6 +88,10 @@ du -h $FILE
 # show vid folder size
 du -h $SAVE_PATH
 echo "==============================================="
+
+#try and open the shutter
+SHUTTER_CLOSE="/home/labuser/development/jetson-cam-utils/util/shutter_close.sh"
+"$SHUTTER_CLOSE"
 
 
 #for development, now open/playback the video

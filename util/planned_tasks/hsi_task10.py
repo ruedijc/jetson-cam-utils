@@ -40,6 +40,8 @@ print(f'Save Path: {hsi_save_path}')
 print(f'Max size on disk in GB: {hsi_task_max_disk_gb}')
 
 
+# set all LEDs off 
+os.system("/home/labuser/development/jetson-cam-utils/util/all_leds_off.sh")
 
 #before conntinuing, see if the shutter can be opened -
 os.system("/home/labuser/development/jetson-cam-utils/util/shutter_open.sh")

@@ -2,7 +2,7 @@ This folder contains planned tasks and config files
 
 For deployment - 
 copy ./* into ~/tasks/
-copy ./hsi_config/* into /etc/hsi/
+copy ./hsi_config/* into /etc/hsi-config/
 
 Verify operation
 
