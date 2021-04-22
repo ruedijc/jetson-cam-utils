@@ -37,7 +37,7 @@ print(f'Xi Exposure Steps: {hsi_exposure_steps}')
 print(f'Xi HSI Samples: {hsi_samples}')
 print(f'Save Path: {hsi_save_path}')
 print(f'Max size on disk in GB: {hsi_task_max_disk_gb}')
-print(f'hsi dwell time, ms: {hsi_dwell_msec}')'
+print(f'hsi dwell time, ms: {hsi_dwell_msec}')
 
 
 # set all LEDs off 
