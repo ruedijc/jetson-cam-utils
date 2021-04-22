@@ -241,7 +241,7 @@ else:
         cam.set_exposure(exp) # in us
 
         #wait 2x the exposure time to allow for camera to adjust
-        time.sleep(2.0 * (exp/1000000)) 
+        #time.sleep(2.0 * (exp/1000000)) 
 
         print('Current exposure is %s us.' %cam.get_exposure())
         print('Current gain is %s' %cam.get_gain())

@@ -201,7 +201,7 @@ if (hsi_exposure_auto == 1) :
         #!!! IMPORTANT !!!
         # wait for dwell time, for camera autexposure to adjust...
         # otherwise, you may get cross-talk between light values
-        time.sleep(hsi_cal_dwell_msec/1000)
+        time.sleep(hsi_dwell_msec/1000)
 
 
         for j in range(num_captures):
@@ -258,40 +258,40 @@ if (hsi_exposure_auto == 1) :
     #done with seqeunce of LEDs
 
 else:
-    for exp in exposure_list:
-        print("exposure: ", exp)
-        
-        cam.disable_aeag()
-        cam.set_exposure(exp) # in us
 
-        #wait 2x the exposure time to allow for camera to adjust
-        time.sleep(2.0 * (exp/1000000)) 
+    #Cycle over all LED test conditions
+    for i in range(0, len(led_conditions), 1) :
 
-        print('Current exposure is %s us.' %cam.get_exposure())
-        print('Current gain is %s' %cam.get_gain())
+        # set the LED outputs
+        #e.g. led_conditions[i] = [ 1 1 1 1]
+        set_led(1, led_conditions[i][0] )
+        set_led(2, led_conditions[i][1] )
+        set_led(3, led_conditions[i][2] )
+        set_led(4, led_conditions[i][3] )
 
+        print("testing condition:")
+        print("led1: " + str(led_conditions[i][0]) )
+        print("led2: " + str(led_conditions[i][1]) )
+        print("led3: " + str(led_conditions[i][2]) )
+        print("led4: " + str(led_conditions[i][3]) )
 
-        #Cycle over all LED test conditions
-        for i in range(0, len(led_conditions), 1) :
+        #!!! IMPORTANT !!!
+        # wait for dwell time, for camera autexposure to adjust...
+        # otherwise, you may get cross-talk between light values
+        time.sleep(hsi_dwell_msec/1000)
 
-            # set the LED outputs
-            #e.g. led_conditions[i] = [ 1 1 1 1]
-            set_led(1, led_conditions[i][0] )
-            set_led(2, led_conditions[i][1] )
-            set_led(3, led_conditions[i][2] )
-            set_led(4, led_conditions[i][3] )
+        for exp in exposure_list:
+            print("exposure: ", exp)
+            
+            cam.disable_aeag()
+            cam.set_exposure(exp) # in us
 
-            print("testing condition:")
-            print("led1: " + str(led_conditions[i][0]) )
-            print("led2: " + str(led_conditions[i][1]) )
-            print("led3: " + str(led_conditions[i][2]) )
-            print("led4: " + str(led_conditions[i][3]) )
+            #wait 2x the exposure time to allow for camera to adjust
+            #time.sleep(2.0 * (exp/1000000)) 
 
+            print('Current exposure is %s us.' %cam.get_exposure())
+            print('Current gain is %s' %cam.get_gain())
 
-            #!!! IMPORTANT !!!
-            # wait for dwell time, for camera autexposure to adjust...
-            # otherwise, you may get cross-talk between light values
-            time.sleep(hsi_dwell_msec/1000)
 
             for j in range(num_captures):
                 #stamp current time
@@ -337,11 +337,12 @@ else:
                     '.tif'
                 img.save(str(fname))
 
-            #wait before changing LEDs
-            time.sleep(hsi_dwell_msec/1000)
             #done with samples
-        #done with LED combos
-    #done with exposure list
+        #done with exposure list
+        #wait before changing LEDs
+        time.sleep(hsi_dwell_msec/1000)
+    #done with LED combos
+
 
 #stop data acquisition
 print('Stopping acquisition...')
