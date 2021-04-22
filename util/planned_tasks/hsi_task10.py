@@ -39,6 +39,8 @@ print(f'Context sync capture: {ctx_sync_capture}')
 print(f'Save Path: {hsi_save_path}')
 print(f'Max size on disk in GB: {hsi_task_max_disk_gb}')
 
+# mkdir if it doesnt exisit 
+os.system("mkdir {}".format(hsi_save_path))
 
 # set all LEDs off 
 os.system("/home/labuser/development/jetson-cam-utils/util/all_leds_off.sh")

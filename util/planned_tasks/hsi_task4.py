@@ -16,7 +16,7 @@ t=time.time() # get start time for end-to-end performance checks
 #load configuration parameters from file -
 config = configparser.ConfigParser(allow_no_value=True)
 config.sections()
-config.read('/etc/hsi-config/hsi_task_a.ini')
+config.read('/etc/hsi-config/hsi_task4.ini')
 
 hsi_exposure_min = int(config['hsi']['HSI_EXPOSURE_MIN'])
 hsi_exposure_max = int(config['hsi']['HSI_EXPOSURE_MAX'])
@@ -39,10 +39,11 @@ print(f'Context sync capture: {ctx_sync_capture}')
 print(f'Save Path: {hsi_save_path}')
 print(f'Max size on disk in GB: {hsi_task_max_disk_gb}')
 
+# mkdir if it doesnt exisit 
+os.system("mkdir {}".format(hsi_save_path))
 
 # set all LEDs off 
 os.system("/home/labuser/development/jetson-cam-utils/util/all_leds_off.sh")
-
 
 #before conntinuing, see if the shutter can be opened -
 os.system("/home/labuser/development/jetson-cam-utils/util/shutter_open.sh")
