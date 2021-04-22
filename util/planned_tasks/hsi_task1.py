@@ -330,9 +330,10 @@ else:
                 # tried saving to tmpfs (/dev/shm) but didn't save time.
                 # probably just slow writing?
 
-                fname = hsi_save_path + 'hsi_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f")+'_' + \
+                fname = hsi_cal_save_path + 'hsi_cal_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f")+'_' + \
                     str(real_exp) + 'us_' + \
                     str(j+1) + '-of-' + str(num_captures) + '_' +\
+                    str(led1_state) + str(led2_state) + str(led3_state) + str(led4_state) + '_' + \
                     str(temp_centiK) + \
                     '.tif'
                 img.save(str(fname))
