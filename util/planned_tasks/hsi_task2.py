@@ -18,6 +18,19 @@ config = configparser.ConfigParser(allow_no_value=True)
 config.sections()
 config.read('/etc/hsi-config/hsi_task2.ini')
 
+#defaults
+hsi_exposure_min = 50
+hsi_exposure_max = 500000
+hsi_exposure_auto = 0
+hsi_exposure_steps = 5
+hsi_samples = 3
+ctx_sync_capture = 1
+ctx_img_quality = 95
+hsi_save_path = str("/media/msata/queue/"")
+hsi_save_path = hsi_save_path.strip('\"') #strip out double quotes
+hsi_task_max_disk_gb = float("1.0")
+
+#read from config
 hsi_exposure_min = int(config['hsi']['HSI_EXPOSURE_MIN'])
 hsi_exposure_max = int(config['hsi']['HSI_EXPOSURE_MAX'])
 hsi_exposure_auto = int(config['hsi']['HSI_EXPOSURE_AUTO'])
@@ -28,6 +41,21 @@ ctx_img_quality = int(config['ctx']['ctx_img_quality'])
 hsi_save_path = str(config['filesys']['hsi_save_path'])
 hsi_save_path = hsi_save_path.strip('\"') #strip out double quotes
 hsi_task_max_disk_gb = float(config['filesys']['hsi_task_max_disk_gb'])
+
+
+# or read from arguments if any
+if len(sys.argv) > 1 : hsi_exposure_min = int( sys.argv[1] )
+if len(sys.argv) > 2 : hsi_exposure_max = int( sys.argv[2] )
+if len(sys.argv) > 3 : hsi_exposure_auto = int( sys.argv[3] )
+if len(sys.argv) > 4 : hsi_exposure_steps = int( sys.argv[4] )
+if len(sys.argv) > 5 : hsi_samples = int( sys.argv[5] )
+if len(sys.argv) > 6 : ctx_sync_capture = int( sys.argv[6] )
+if len(sys.argv) > 7 : ctx_img_quality = int( sys.argv[7] )
+if len(sys.argv) > 8 :
+    hsi_save_path = str(sys.argv[8])
+    hsi_save_path = hsi_save_path.strip('\"') #strip out double quotes
+if len(sys.argv) > 9 : hsi_task_max_disk_gb = float(sys.argv[9])
+
 
 print('hsi-config/hsi_task2.ini  configuration:')
 print(f'Xi Min Exposure: {hsi_exposure_min}')

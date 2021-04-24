@@ -18,16 +18,39 @@ config = configparser.ConfigParser(allow_no_value=True)
 config.sections()
 config.read('/etc/hsi-config/hsi_task1.ini')
 
+#defaults
+hsi_exposure_min = 40000
+hsi_exposure_max = 250000
+hsi_exposure_auto = 0
+hsi_exposure_steps = 4
+hsi_samples = 3
+hsi_dwell_msec  = 2000
+hsi_save_path = str("/media/msata/queue/")
+hsi_save_path = hsi_save_path.strip('\"') #strip out double quotes
+hsi_task_max_disk_gb = float("1.0")
+
+#read from config
 hsi_exposure_min = int(config['hsi']['HSI_EXPOSURE_MIN'])
 hsi_exposure_max = int(config['hsi']['HSI_EXPOSURE_MAX'])
 hsi_exposure_auto = int(config['hsi']['HSI_EXPOSURE_AUTO'])
 hsi_exposure_steps = int(config['hsi']['HSI_EXPOSURE_STEPS'])
 hsi_samples = int(config['hsi']['HSI_SAMPLES'])
+hsi_dwell_msec =  int(config['hsi']['HSI_DWELL_MS'])
 hsi_save_path = str(config['filesys']['hsi_save_path'])
 hsi_save_path = hsi_save_path.strip('\"') #strip out double quotes
 hsi_task_max_disk_gb = float(config['filesys']['hsi_task_max_disk_gb'])
 
-hsi_dwell_msec =  int(config['hsi']['HSI_DWELL_MS'])
+# or read from arguments if any
+if len(sys.argv) > 1 : hsi_exposure_min = int( sys.argv[1] )
+if len(sys.argv) > 2 : hsi_exposure_max = int( sys.argv[2] )
+if len(sys.argv) > 3 : hsi_exposure_auto = int( sys.argv[3] )
+if len(sys.argv) > 4 : hsi_exposure_steps = int( sys.argv[4] )
+if len(sys.argv) > 5 : hsi_samples = int( sys.argv[5] )
+if len(sys.argv) > 6 : hsi_dwell_msec = int( sys.argv[6] )
+if len(sys.argv) > 7 :
+    hsi_save_path = str(sys.argv[8])
+    hsi_save_path = hsi_save_path.strip('\"') #strip out double quotes
+if len(sys.argv) > 9 : hsi_task_max_disk_gb = float(sys.argv[9])
 
 print('hsi-config/hsi_task1.ini  configuration:')
 print(f'Xi Min Exposure: {hsi_exposure_min}')
@@ -38,6 +61,7 @@ print(f'Xi HSI Samples: {hsi_samples}')
 print(f'Save Path: {hsi_save_path}')
 print(f'Max size on disk in GB: {hsi_task_max_disk_gb}')
 print(f'hsi dwell time, ms: {hsi_dwell_msec}')
+
 
 #close the shutter!
 os.system("/home/labuser/development/jetson-cam-utils/util/shutter_close.sh")
