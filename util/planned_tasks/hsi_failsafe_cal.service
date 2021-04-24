@@ -1,0 +1,14 @@
+# hsi_failsafe_cal.service - runs task3 if no comms are available
+# start stop with hsi_failsafe_calservice.timer
+#
+# place in /etc/systemd/system/hsi_failsafe_cal.service
+
+[Unit]
+Description=HSI failsafe calibration service. Runs in the event of no-comms.
+
+
+[Service]
+Type=oneshot
+User=labuser
+ExecStart=/home/labuser/development/jetson-cam-utils/util/planned_tasks/hsi_task3.py
+

@@ -134,26 +134,6 @@ led_conditions = [  [0, 0, 0, 0],
                     [0, 0, 0, 0]
                  ]
 
-led_exposures = [ 1000000,
-		  1000000,
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000,  
-                  1000000
-		]  
-
-
 depth = 16 # set bit depth, 8 or 16, assumes mono
 exposure_start = hsi_exposure_min # 10k = 10ms
 exposure_end = hsi_exposure_max # 100k= 100ms
@@ -335,7 +315,7 @@ else:
             print('Current gain is %s' %cam.get_gain())
 
 
-            #take 3 pre-roll images to allow autoexposure to work if active
+            #take 3 pre-roll images to allow exposure to adjust
             for x in range(3):
                 #get data and pass them from camera to img
                 cam.get_image(ximg)

@@ -1,0 +1,14 @@
+# hsi_failsafe_cap.service - runs task3 if no comms are available
+# start stop with hsi_failsafe_cap.timer
+#
+# place in /etc/systemd/system/hsi_failsafe_cap.service
+
+[Unit]
+Description=HSI failsafe image capture service. Runs in the event of no-comms.
+
+
+[Service]
+Type=oneshot
+User=labuser
+ExecStart=/home/labuser/development/jetson-cam-utils/util/planned_tasks/hsi_task4.py
+

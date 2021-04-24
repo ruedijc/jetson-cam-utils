@@ -1,0 +1,16 @@
+# hsi_failsafe_cal.timer
+# timer for hsi_failsafe_cal.service
+# Capture on the 1st and 15th of each month at 4am
+#
+# place in /etc/systemd/system/hsi_failsafe_cal.timer
+
+[Unit]
+Description=Timer for failsafe HSI LED calibration image capture service, in case of comms failure.
+
+[Timer]
+OnCalendar=*-*-1,15 4:00:00
+Unit=hsi_failsafe_cal.service
+
+[Install]
+WantedBy=timers.target
+

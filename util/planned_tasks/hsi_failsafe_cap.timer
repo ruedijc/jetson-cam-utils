@@ -1,0 +1,16 @@
+# hsi_failsafe_cap.timer
+# timer for hsi_failsafe_cap.service
+# Capture on the 1st and 15th of each month at 6am
+#
+# place in /etc/systemd/system/hsi_failsafe_cap.timer
+
+[Unit]
+Description=Timer for failsafe HSI and context image capture service, in case of comms failure.
+
+[Timer]
+OnCalendar=*-*-1,15 6:00:00
+Unit=hsi_failsafe_cap.service
+
+[Install]
+WantedBy=timers.target
+

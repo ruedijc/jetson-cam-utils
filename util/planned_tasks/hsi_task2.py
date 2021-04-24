@@ -137,10 +137,13 @@ num_captures = hsi_samples # number of captures at eaxh exposures
 num_exposures = hsi_exposure_steps # number of exposures 
 
 exposure_list = []
-for i in range(num_exposures):
-    print(i)
-    exposure_list.append( exposure_start + (exposure_end-exposure_start)*(i/(num_exposures-1)) )
+if num_exposures>1 :
 
+    for i in range(num_exposures):
+        print(i)
+        exposure_list.append( exposure_start + (exposure_end-exposure_start)*(i/(num_exposures-1)) )
+else :
+    exposure_list.append(exposure_end)
 print("Exposures to sample:", exposure_list[:])
 
 
@@ -205,7 +208,7 @@ if (hsi_exposure_auto == 1) :
         #print('Stopping acquisition...')
         #cam.stop_acquisition()
 
-        print('End exposure is %s us.' %cam.get_exposure())
+        print('End exposure is %s us.' %real_exp) # %cam.get_exposure())
         print('End gain is %s' %cam.get_gain())
 
         #show acquired image
@@ -228,17 +231,25 @@ if (hsi_exposure_auto == 1) :
             str(temp_centiK) + \
             '.tif'
         img.save(str(fname))
+        time.sleep(real_exp/1000000.0) #sleep for an exposure time to ensure next pic is new                                                                                                        time.sleep(real_exp/1000000.0) #sleep for an exposure time to ensure next pic is new                                                                                            
 
         #done saving single sample
 
     #done with number of capures
 
 else:
+    print("System in static exposure mode")
+    cam.disable_aeag()
+    cam.disable_auto_wb()
+    time.sleep(1.0)
     for exp in exposure_list:
         print("exposure: ", exp)
         
-        cam.disable_aeag()
-        cam.set_exposure(exp) # in us
+        #cam.disable_aeag()
+        try :
+            cam.set_exposure(exp) # in us
+        except :
+            print("Failed to set cam exposure - is there a ximea connection problem?")
 
         #wait 2x the exposure time to allow for camera to adjust
         #time.sleep(2.0 * (exp/1000000)) 
@@ -246,6 +257,11 @@ else:
         print('Current exposure is %s us.' %cam.get_exposure())
         print('Current gain is %s' %cam.get_gain())
 
+        #take 3 pre-roll images to allow exposure to adjust
+        for x in range(3):
+            #get data and pass them from camera to img
+            cam.get_image(ximg)
+            
         for j in range(num_captures):
             #stamp current time
             ts = datetime.now()
@@ -289,6 +305,8 @@ else:
                 str(temp_centiK) + \
                 '.tif'
             img.save(str(fname))
+            time.sleep(2.0*real_exp/1000000.0) #sleep for 2  exposure times to ensure next pic is new                                                                                           $ 
+
             #done with samples
     #done with exposure list
 

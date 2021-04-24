@@ -1,5 +1,30 @@
 This folder contains planned tasks and config files
 
+tasks that output to queue are generally one-shot initiated tasks that we want to see the result soon.
+tasks that output to other locations, generate more data for review upon return to ground
+
+---- one-shot sequence tasks ---------------------------------------------------
+task1 - LED calibration sequence, one-shot, outputs to queue
+task2 - HSI and Context camera sequence, one-shot, outputs to queue
+---- tasks for use by services and repeating timers (first part of mission) -----
+task3 - LED calibration sequence, for timer/service, outputs to task3
+task4 - HSI and Context camera sequence, for timer/service, outputs to task4
+---- one-shot sequence tasks ---------------------------------------------------
+task5 - take short HSI camera video (TIF sequence), one-shot, outputs to queue
+task6 - take short Context camera video (h265), one-shot, outputs to queue
+task7 - take a longer HSI camera video (TIF sequence), one-shot, outputs to vid
+task8 - take a longer Context camera video (h265), one-shot, outputs to vid
+---- tasks for use by services and repeating timers (last part of mission) -----
+task9 - LED calibration sequence, for timer/service, outputs to task9
+task10 - HSI and Context camera sequence, for timer/service, outputs to task10
+---- utility tasks ---------------------------------------------------
+task11 - clear the on-board queue folder (delete files currently in the queue folder)
+task12 - perform on-board hyperspectral reconstruction, TBD
+task13 - stop all tasks, return to default state
+task14 - prepare for powerloss
+task15 - copy newest files into queue, TBD
+
+
 For deployment - 
 copy ./* into ~/tasks/
 copy ./hsi_config/* into /etc/hsi-config/

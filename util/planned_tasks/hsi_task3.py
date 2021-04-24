@@ -39,6 +39,9 @@ print(f'Save Path: {hsi_save_path}')
 print(f'Max size on disk in GB: {hsi_task_max_disk_gb}')
 print(f'hsi dwell time, ms: {hsi_dwell_msec}')
 
+#close the shutter!
+os.system("/home/labuser/development/jetson-cam-utils/util/shutter_close.sh")
+time.sleep(2.0)
 
 # set all LEDs off 
 os.system("/home/labuser/development/jetson-cam-utils/util/all_leds_off.sh")
@@ -105,6 +108,9 @@ def set_led(n,x):
             print("no action")
     else :
         print("invalid LED number. no action")
+    
+    # wait 1 second for LED to change
+    time.sleep(1.0)
 
 
 #set of conditions to test. row values are [ LED1 LED2 LED3 LED4 ]
@@ -135,9 +141,13 @@ num_captures = hsi_samples # number of captures at eaxh exposures
 num_exposures = hsi_exposure_steps # number of exposures 
 
 exposure_list = []
-for i in range(num_exposures):
-    print(i)
-    exposure_list.append( exposure_start + (exposure_end-exposure_start)*(i/(num_exposures-1)) )
+
+if num_exposures>1 :
+    for i in range(num_exposures):
+        print(i)
+        exposure_list.append( exposure_start + (exposure_end-exposure_start)*(i/(num_exposures-1)) )
+else :
+    exposure_list.append(exposure_end)
 
 print("Exposures to sample:", exposure_list[:])
 
@@ -165,6 +175,8 @@ cam.start_acquisition()
 
 
 if (hsi_exposure_auto == 1) :
+    
+    print("System set to use autoexposure")
     #set to autoexposure
     cam.enable_aeag()
     #set to exposure priority (vs gain priority)
@@ -225,7 +237,7 @@ if (hsi_exposure_auto == 1) :
             #print('Stopping acquisition...')
             #cam.stop_acquisition()
 
-            print('End exposure is %s us.' %cam.get_exposure())
+            print('End exposure is %s us.' %real_exp) # %cam.get_exposure())
             print('End gain is %s' %cam.get_gain())
 
             #show acquired image
@@ -249,7 +261,7 @@ if (hsi_exposure_auto == 1) :
                 str(temp_centiK) + \
                 '.tif'
             img.save(str(fname))
-
+            time.sleep(real_exp/1000000.0) #sleep for an exposure time to ensure next pic is new                                                                                                        time.sleep(real_exp/1000000.0) #sleep for an exposure time to ensure next pic is new                                                                                            
 
             #done saving single sample
 
@@ -260,6 +272,10 @@ if (hsi_exposure_auto == 1) :
     #done with seqeunce of LEDs
 
 else:
+    
+    print("System in static exposure mode")
+    cam.disable_aeag()
+    cam.disable_auto_wb()
 
     #Cycle over all LED test conditions
     for i in range(0, len(led_conditions), 1) :
@@ -285,14 +301,24 @@ else:
         for exp in exposure_list:
             print("exposure: ", exp)
             
-            cam.disable_aeag()
-            cam.set_exposure(exp) # in us
+            #cam.disable_aeag()
+
+            try :
+               cam.set_exposure(exp) # in us
+            except :
+               print("Failed to set cam exposure - is there a ximea connection problem?")
 
             #wait 2x the exposure time to allow for camera to adjust
             #time.sleep(2.0 * (exp/1000000)) 
 
             print('Current exposure is %s us.' %cam.get_exposure())
             print('Current gain is %s' %cam.get_gain())
+
+
+            #take 3 pre-roll images to allow autoexposure to work if active
+            for x in range(3):
+                #get data and pass them from camera to img
+                cam.get_image(ximg)
 
 
             for j in range(num_captures):
@@ -315,7 +341,7 @@ else:
                 #print('Stopping acquisition...')
                 #cam.stop_acquisition()
 
-                #print('End exposure is %s us.' %cam.get_exposure())
+                print('End exposure is %s us.' %real_exp)  #%cam.get_exposure())
                 #print('End gain is %s' %cam.get_gain())
 
                 #show acquired image
@@ -339,6 +365,8 @@ else:
                     str(temp_centiK) + \
                     '.tif'
                 img.save(str(fname))
+
+                time.sleep(2.0*real_exp/1000000.0) #sleep for 2  exposure times to ensure next pic is new                                                                                           $ 
 
             #done with samples
         #done with exposure list
