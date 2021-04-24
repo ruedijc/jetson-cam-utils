@@ -25,6 +25,14 @@ TASK_MAX_DISK_GB="1"
 # load config values
 source /etc/hsi-config/hsi_task6b.ini
 
+# if arguments, use those instead - 
+# TBD
+#CTX_VID_DURATION=$1
+#CTX_VID_BITRATE=$2
+#CTX_VID_4K=$3
+#SAVE_PATH=$4
+#TASK_MAX_DISK_GB=$5
+
 
 #echo values
 echo "vid duration is: ${CTX_VID_DURATION}"
