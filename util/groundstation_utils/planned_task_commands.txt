@@ -20,16 +20,8 @@ rsync --remove-source-files -azv labuser@10.0.0.2:/media/msata/queue/ ./{TBD}
 
 rsync <OPTIONS> -e ssh labuser@10.0.0.2:/media/msata/queue ./{TBD}
 
-Recommended options: -rRtmv
-
--r, --recursive         recurse into directories
--R, --relative          use relative path names
--t, --times             preserve modification times
--m, --prune-empty-dirs  prune empty directory chains from file-list
--v, --verbose           increase verbosity
-
 e.g.
-rsync --remove-source-files -rRtmzv -e ssh labuser@10.0.0.2:/media/msata/queue ./{TBD}
+rsync --remove-source-files -azv -e ssh labuser@10.0.0.2:/media/msata/queue ./{TBD}
 
 
 # List of commands to start planned tasks
