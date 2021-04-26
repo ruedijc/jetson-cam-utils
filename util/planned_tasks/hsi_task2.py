@@ -116,12 +116,21 @@ def capture_context_frame():
     
     #cmd line pipeline
     #gst-launch-1.0 videotestsrc num-buffers=50 ! autovideosink
+    '''
+    You could do -
+    gst-launch-1.0 v4l2src num-buffers=10 ! multifilesink max-files=1 location=output%05d.jpg
+
+    That will write every buffer to a file, but delete old ones as a new one is written, leaving only the last frame when it finishes.
+    '''
 
     ts = datetime.now()
     filename = hsi_save_path + 'ctx_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f")+ '' + '.jpg'
 
     #command = "nvarguscamerasrc num-buffers=1 ! nvjpegenc  ! filesink location=nvarguscamerasrc-frame.jpg"
     command = "nvarguscamerasrc num-buffers=1 ! nvjpegenc  ! filesink location=" + filename
+  
+    #command = "nvarguscamerasrc num-buffers=10 ! multifilesink max-files=1 location=" + filename
+
 
     # Gst.Pipeline https://lazka.github.io/pgi-docs/Gst-1.0/classes/Pipeline.html
     # https://lazka.github.io/pgi-docs/Gst-1.0/functions.html#Gst.parse_launch
