@@ -1,0 +1,15 @@
+# hsi-temp-logging service
+# copies state of sun sensors, shutter, and system temps into a single line entry in a text file
+#
+# run periodically with a timer
+#
+# place in /etc/systemd/system/hsi-temp-logging.service
+[Unit]
+Description=HSI periodic temperature logging service
+#After=network.target
+
+[Service]
+Type=oneshot
+User=labuser
+ExecStart=/home/labuser/development/jetson-cam-utils/util/services/hsi-temp-logging.sh
+

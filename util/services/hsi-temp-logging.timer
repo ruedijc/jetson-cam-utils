@@ -1,0 +1,15 @@
+# hsi-temp-logging.timer
+# timer for hsi-temp-logging.service
+#
+# place in /etc/systemd/system/hsi-temp-logging.timer
+
+[Unit]
+Description=Timer for HSI temperature logging service
+
+[Timer]
+OnUnitActiveSec=2m
+OnBootSec=120s
+
+[Install]
+WantedBy=timers.target
+
