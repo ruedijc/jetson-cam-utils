@@ -1,23 +1,93 @@
 
+
+#First contact tasks
+#################################################################################################
+
+# manually set the time to misse's time
+ssh labuser@10.0.0.2 "date --set \"$(date)\""
+
+# turn off/on failsafe tasks (turned on by default prior to launch)
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_failsafe_stop.sh"
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_failsafe_start.sh"
+
+# get latest hsi system status (short text file)
+scp labuser@10.0.0.1:/media/msata/queue/system_status_summary.txt ./{TBD}
+
+# rsync task to copy queue and remove files from source after copying
+# >>> will want this to run periodically on misse computer
+rsync --remove-source-files -azv labuser@10.0.0.2:/media/msata/queue/ ./{TBD}
+
+
+rsync <OPTIONS> -e ssh labuser@10.0.0.2:/media/msata/queue ./{TBD}
+
+Recommended options: -rRtmv
+
+-r, --recursive         recurse into directories
+-R, --relative          use relative path names
+-t, --times             preserve modification times
+-m, --prune-empty-dirs  prune empty directory chains from file-list
+-v, --verbose           increase verbosity
+
+e.g.
+rsync --remove-source-files -rRtmzv -e ssh labuser@10.0.0.2:/media/msata/queue ./{TBD}
+
+
 # List of commands to start planned tasks
+#################################################################################################
+
+
+# task10 command - start/stop image capture sequence timer task (runs every 5 minutes while active)
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task10_start.sh"
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task10_stop.sh"
+
 
 # task1 command - one-shot LED calibration sequence
-ssh labuser@tx2i-spacely.nanonet.local "~/tasks/hsi_task1.py"
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task1.py"
 
 # task2 command - one-shot image capture sequence
-ssh labuser@tx2i-spacely.nanonet.local "~/tasks/hsi_task2.py"
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task2.py"
+
+# task3 command - start/stop LED calibration sequence timer task (runs every 10 minutes while active)
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task3_start.sh"	
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task3_stop.sh"	
+
+# task4 command - start/stop image capture sequence timer task (runs every 5 minutes while active)
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task4_start.sh"
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task4_stop.sh"
+
+# task5 command - take x second sequence of hsi images
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task5.py"			
+# task6 command - take 30 second video from context camera
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task6.py"		
+# task7 command - take x second sequence of hsi images (longer, stores to /vid)
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task7.py"	
+# task8 command - take 30 second video from context camera (longer, stores to /vid)
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task8.py"
+
+# task9 command - start/stop LED calibration sequence timer task (runs every 10 minutes while active)
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task9_start.sh"	
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task9_stop.sh"	
+
+# task10 command - start/stop image capture sequence timer task (runs every 5 minutes while active)
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task10_start.sh"
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task10_stop.sh"
 
 
+# Utility tasks
+#################################################################################################
 
-===
 
+# task11 command - manually clear the queue folder
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task11.sh"				
 
-# task11 command - manually clear the queue
-ssh labuser@tx2i-spacely.nanonet.local "~/tasks/hsi_task11.sh"
+# task12 command - perform on-board reconstruction
+#ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task12.py"			
 
 # task13 command - stop all tasks
-ssh labuser@tx2i-spacely.nanonet.local "~/tasks/hsi_task13.sh"
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task13.sh"		
 
 # task14 command - prepare for powerloss (shutdown - requires power cycle to restart)
-ssh labuser@tx2i-spacely.nanonet.local "~/tasks/hsi_task14.sh"
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task14.sh"	
 
+# task15 command - copy newest files to queue
+ssh labuser@10.0.0.2 "home/labuser/tasks/hsi_task15.py"

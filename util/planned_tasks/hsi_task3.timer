@@ -8,7 +8,7 @@
 Description=Timer for HSI image capture service
 
 [Timer]
-OnUnitActiveSec=300s
+OnUnitActiveSec=10m
 OnBootSec=300s
 
 [Install]
