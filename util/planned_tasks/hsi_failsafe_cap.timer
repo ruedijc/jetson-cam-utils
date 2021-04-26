@@ -9,7 +9,7 @@ Description=Timer for failsafe HSI LED calibration image capture service, in cas
 
 [Timer]
 OnUnitActiveSec=14d
-OnBootSec=30m
+OnBootSec=12m
 #OnCalendar=*-*-1,15 4:00:00
 
 [Install]
