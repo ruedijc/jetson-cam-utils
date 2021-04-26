@@ -26,7 +26,7 @@ hsi_exposure_steps = 1
 hsi_samples = 400
 ctx_sync_capture = 1
 ctx_img_quality = 95
-hsi_save_path = str("/media/msata/queue/"")
+hsi_save_path = str("/media/msata/queue/")
 hsi_save_path = hsi_save_path.strip('\"') #strip out double quotes
 hsi_task_max_disk_gb = float("1.0")
 
