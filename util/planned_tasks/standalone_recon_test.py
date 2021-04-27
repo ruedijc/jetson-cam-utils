@@ -166,7 +166,12 @@ all_scene_elements = load_dict(calibration_folder + se_filename)
 #image_for_reconstruction = import_image(temporary_folder_for_recon / temporary_filename)
 image_for_reconstruction = import_image( temporary_filename)
 
-slope, offset = linfit(dark_frame[darkframe_region_slice].flatten(), image_for_reconstruction[darkframe_region_slice].flatten())
+# slope, offset = linfit(dark_frame[darkframe_region_slice].flatten(), image_for_reconstruction[darkframe_region_slice].flatten())
+
+dark_fit_bpm = ~np.isfinite(dark_frame[darkframe_region_slice].flatten()) | ~np.isfinite(image_for_reconstruction[darkframe_region_slice].flatten())
+slope, offset = linfit(dark_frame[darkframe_region_slice].flatten()[~dark_fit_bpm],
+                       image_for_reconstruction[darkframe_region_slice].flatten()[~dark_fit_bpm])
+
 
 test_image_bg_sub = image_for_reconstruction - (dark_frame - offset) / slope
 
