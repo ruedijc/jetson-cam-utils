@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 import numpy as np
 from pathlib import Path
@@ -6,9 +7,8 @@ from PIL import Image
 from scipy import optimize
 from scipy.linalg import svd
 import time
-
 import glob   # for latest file
-import os
+import os    
 
 # get the latest *.tif file in the queue, and use that for recon
 list_of_files = glob.glob('/media/msata/queue/*.tif') # * means all if need specific format then *.csv
@@ -23,11 +23,11 @@ calibration_folder = "/home/labuser/calibration_files/" #Path.cwd()  # This is t
 
 # NEED TO UPDATE TEMPORARY FILEPATH TO THE CORRECT THING!!!!  - This is the file for spectral reconstruction
 #temporary_folder_for_recon = Path("C:\\Users\\cmann\\Documents\\Nanohmics\\ISSNL Hyperspectral\\Calibration\\flight_articles\\SN5\\val\\200 col notch 50 step 100ms int sn5 post tcycle 2\\0600")
-temporary_folder_for_recon = "/media/msata/queue/"
+temporary_folder_for_recon = "/media/msata/queue"
 temporary_filename = latest_file #hs_550nm_2021.04.22-14.21.51.359.tif"
 
 # NEED TO SET THE CORRECT EXPORT LOCATION:
-export_filepath = "/media/msata/queue/" #calibration_folder  # This is where we want the reconstructed data exported to
+export_filepath = "/media/msata/queue" #calibration_folder  # This is where we want the reconstructed data exported to
 export_filename = str( os.path.splitext(latest_file)[0] + ".npz")  # This is what we want to name the reconstructed data (npz filename needed)
 
 # Region of frame to use for background subtraction fitting:
@@ -147,7 +147,8 @@ def linfit(x_val_arr, y_val_arr):
 # Baseline the runtime:
 t_0 = time.time()
 
-imported_files = np.load(calibration_folder / cal_filename)
+#imported_files = np.load(calibration_folder / cal_filename)
+imported_files = np.load(calibration_folder + cal_filename)
 
 image_stack = imported_files['image_stack']
 spectra_stack = imported_files['spectra_stack']
@@ -155,13 +156,15 @@ spectral_domain = imported_files['spectral_domain']
 dark_spectrum = imported_files['dark_spectrum']
 dark_frame = imported_files['dark_frame']
 
-all_scene_elements = load_dict(calibration_folder / se_filename)
+#all_scene_elements = load_dict(calibration_folder / se_filename)
+all_scene_elements = load_dict(calibration_folder + se_filename)
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 # Need to have an image to perform calibration on...  for now:
 
-image_for_reconstruction = import_image(temporary_folder_for_recon / temporary_filename)
+#image_for_reconstruction = import_image(temporary_folder_for_recon / temporary_filename)
+image_for_reconstruction = import_image( temporary_filename)
 
 slope, offset = linfit(dark_frame[darkframe_region_slice].flatten(), image_for_reconstruction[darkframe_region_slice].flatten())
 
