@@ -116,8 +116,7 @@ def nnls_reconstruction(cal_speckle: np.ndarray,
 
     try:
         new_nnls_soln, residues = optimize.nnls(t_mat.T,
-                                                speckle_pattern,
-                                                maxiter=10 * t_mat.shape[1])
+                                                speckle_pattern)
     except RuntimeError or ValueError:
         new_nnls_soln, residues = None, None
 
@@ -137,7 +136,7 @@ def linfit(x_val_arr, y_val_arr):
     x_vect = y_val_arr
     y_vect = x_val_arr
     A_mat = np.vstack([x_vect, np.ones(len(x_vect))]).T
-    slope, offset = np.linalg.lstsq(A_mat, y_vect, rcond=None)[0]
+    slope, offset = np.linalg.lstsq(A_mat, y_vect, rcond=-1)[0]
     return slope, offset
 
 
@@ -201,7 +200,7 @@ for r in range(num_rows):
         pinv_spec = np.dot(spectra_stack.T, pinv_coeffs)
 
 
-np.savez_compressed(export_filepath/export_filename, intensity_map=intensity_map, nnls_map=nnls_map, pinv_map=pinv_map)
+np.savez_compressed(export_filename, intensity_map=intensity_map, nnls_map=nnls_map, pinv_map=pinv_map)
 
 t_1 = time.time()
 
