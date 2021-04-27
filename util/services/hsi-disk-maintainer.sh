@@ -9,12 +9,12 @@
 
 # Optionally, set default value
 #size_limit_GB="1.2"
-size_limit_task3_folder="1.0" #size in GB
-size_limit_task4_folder="1.0" #size in GB
-size_limit_vid_folder="30.0" #size in GB
-size_limit_task9_folder="1.0" #size in GB
-size_limit_task10_folder="1.0" #size in GB
-size_limit_queue_folder="0.3" #size in GB
+size_limit_task3_folder="100.0" #size in GB
+size_limit_task4_folder="100.0" #size in GB
+size_limit_vid_folder="300.0" #size in GB
+size_limit_task9_folder="100.0" #size in GB
+size_limit_task10_folder="100.0" #size in GB
+size_limit_queue_folder="1.0" #size in GB
 # load config values
 source /etc/hsi-config/folder_size_limits
 

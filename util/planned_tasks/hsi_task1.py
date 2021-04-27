@@ -6,9 +6,10 @@ import time
 import configparser   # to read config file
 import os #for shutter script calls
 
-import gi 
-gi.require_version('Gst', '1.0')
-from gi.repository import Gst, GObject
+#import gi 
+#gi.require_version('Gst', '1.0')
+#from gi.repository import Gst, GObject
+
 import sys #used by Gst
 
 t=time.time() # get start time for end-to-end performance checks
@@ -284,7 +285,11 @@ if (hsi_exposure_auto == 1) :
                 str(led1_state) + str(led2_state) + str(led3_state) + str(led4_state) + '_' + \
                 str(temp_centiK) + \
                 '.tif'
-            img.save(str(fname))
+            try :
+                img.save(str(fname), compression="tiff_lzw")
+            except: 
+                print("Problem saving compressed tif, saving uncompressed")
+                img.save(str(fname))
             time.sleep(real_exp/1000000.0) #sleep for an exposure time to ensure next pic is new                                                                                                        time.sleep(real_exp/1000000.0) #sleep for an exposure time to ensure next pic is new                                                                                            
 
             #done saving single sample
