@@ -17,7 +17,7 @@ t = time.time()  # get start time for end-to-end performance checks
 # load configuration parameters from file -
 config = configparser.ConfigParser(allow_no_value=True)
 config.sections()
-config.read('/etc/hsi-config/hsi_task3.ini')
+config.read('/etc/hsi-config/hsi_task1.ini')
 
 hsi_exposure_min = int(config['hsi']['HSI_EXPOSURE_MIN'])
 hsi_exposure_max = int(config['hsi']['HSI_EXPOSURE_MAX'])
@@ -30,7 +30,7 @@ hsi_task_max_disk_gb = float(config['filesys']['hsi_task_max_disk_gb'])
 
 hsi_dwell_msec = int(config['hsi']['HSI_DWELL_MS'])
 
-print('hsi-config/hsi_task3.ini  configuration:')
+print('hsi-config/hsi_task1.ini  configuration:')
 print(f'Xi Min Exposure: {hsi_exposure_min}')
 print(f'Xi Max Exposure: {hsi_exposure_max}')
 print(f'Xi Exposure Auto: {hsi_exposure_auto}')
