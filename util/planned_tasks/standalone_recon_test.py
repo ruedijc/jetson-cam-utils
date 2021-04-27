@@ -7,19 +7,28 @@ from scipy import optimize
 from scipy.linalg import svd
 import time
 
+import glob   # for latest file
+import os
+
+# get the latest *.tif file in the queue, and use that for recon
+list_of_files = glob.glob('/media/msata/queue/*.tif') # * means all if need specific format then *.csv
+latest_file = max(list_of_files, key=os.path.getctime)
+print(latest_file)
+
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # NEED TO UPDATE FILEPATH TO CORRECT LOCATION ON THE CHIMP; GRABS CWD AND ASSUMES CALIBRATION FILES ARE THERE
-calibration_folder = Path.cwd()  # This is the folder where the calibration data is saved
+calibration_folder = "/home/labuser/calibration_files/" #Path.cwd()  # This is the folder where the calibration data is saved
 
 # NEED TO UPDATE TEMPORARY FILEPATH TO THE CORRECT THING!!!!  - This is the file for spectral reconstruction
-temporary_folder_for_recon = Path("C:\\Users\\cmann\\Documents\\Nanohmics\\ISSNL Hyperspectral\\Calibration\\flight_articles\\SN5\\val\\200 col notch 50 step 100ms int sn5 post tcycle 2\\0600")
-temporary_filename = "hs_550nm_2021.04.22-14.21.51.359.tif"
+#temporary_folder_for_recon = Path("C:\\Users\\cmann\\Documents\\Nanohmics\\ISSNL Hyperspectral\\Calibration\\flight_articles\\SN5\\val\\200 col notch 50 step 100ms int sn5 post tcycle 2\\0600")
+temporary_folder_for_recon = "/media/msata/queue/"
+temporary_filename = latest_file #hs_550nm_2021.04.22-14.21.51.359.tif"
 
 # NEED TO SET THE CORRECT EXPORT LOCATION:
-export_filepath = calibration_folder  # This is where we want the reconstructed data exported to
-export_filename = "test_export.npz"  # This is what we want to name the reconstructed data (npz filename needed)
+export_filepath = "/media/msata/queue/" #calibration_folder  # This is where we want the reconstructed data exported to
+export_filename = str( os.path.splitext(latest_file)[0] + ".npz")  # This is what we want to name the reconstructed data (npz filename needed)
 
 # Region of frame to use for background subtraction fitting:
 darkframe_region_slice = slice(5, 35), slice(5, 35)
