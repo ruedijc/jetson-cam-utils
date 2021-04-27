@@ -92,8 +92,13 @@ def capture_context_frame():
     ts = datetime.now()
     filename = hsi_save_path + 'ctx_'+ ts.strftime("%Y-%m-%d_%H-%M-%S.%f")+ '' + '.jpg'
 
-    #command = "nvarguscamerasrc num-buffers=1 ! nvjpegenc  ! filesink location=nvarguscamerasrc-frame.jpg"
-    command = "nvarguscamerasrc num-buffers=1 ! nvjpegenc  ! filesink location=" + filename
+    # this is the baseline command
+    #command = "nvarguscamerasrc num-buffers=1 ! nvjpegenc  ! filesink location=" + filename
+  
+    # this commands attemps to pre-roll some images
+    command = "nvarguscamerasrc num-buffers=10 ! nvjpegenc ! multifilesink max-files=1 location=" + filename
+
+
 
     # Gst.Pipeline https://lazka.github.io/pgi-docs/Gst-1.0/classes/Pipeline.html
     # https://lazka.github.io/pgi-docs/Gst-1.0/functions.html#Gst.parse_launch
